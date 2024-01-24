@@ -1,6 +1,11 @@
 package com.example.mealplanner.models;
 
+import androidx.annotation.NonNull;
+
+
+
 public class Meal {
+
     private String idMeal;
     private String strMeal;
     private String strDrinkAlternate;
