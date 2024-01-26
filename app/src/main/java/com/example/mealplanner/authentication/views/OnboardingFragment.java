@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 
 import com.example.mealplanner.R;
 
-
 public class OnboardingFragment extends Fragment {
 
     public OnboardingFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

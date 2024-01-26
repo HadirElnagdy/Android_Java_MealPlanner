@@ -11,13 +11,13 @@ import java.util.Map;
 public class RemoteDataSourceImpl implements RemoteDataSource {
 
     private ApiService apiService;
-
-    private static Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
+    private static Retrofit retrofit;
 
     public RemoteDataSourceImpl() {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         apiService = retrofit.create(ApiService.class);
     }
 
@@ -28,12 +28,11 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
                 @Override
                 public void onResponse(Call<T> call, Response<T> response) {
                     if (response.isSuccessful()) {
-                        callback.onSuccess(response.body());
+                        callback.onSuccess(response.body(), endpoint);
                     } else {
                         callback.onError(response.code(), response.message());
                     }
                 }
-
                 @Override
                 public void onFailure(Call<T> call, Throwable t) {
                     callback.onFailure(t);

@@ -1,4 +1,5 @@
 package com.example.mealplanner.models;
 
-public class RepositoryImpl {
+public interface MealsRepository {
+
 }

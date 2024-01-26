@@ -4,4 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".authentication.views.AuthenticationActivity"/>
+    tools:context=".authentication.views.AuthenticationActivity">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/authContainerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="216dp"
+        tools:layout_editor_absoluteY="193dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
