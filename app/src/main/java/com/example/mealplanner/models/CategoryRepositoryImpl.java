@@ -7,7 +7,7 @@ import com.example.mealplanner.networkLayer.RemoteDataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CategoryRepositoryImpl {
+public class CategoryRepositoryImpl implements CategoryRepository{
     RemoteDataSource remoteDataSource;
 
     private static CategoryRepositoryImpl repo = null;
