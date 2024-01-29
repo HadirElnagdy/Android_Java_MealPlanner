@@ -12,8 +12,14 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
 
     private ApiService apiService;
     private static Retrofit retrofit;
-
-    public RemoteDataSourceImpl() {
+    private static RemoteDataSourceImpl client = null;
+    public static RemoteDataSourceImpl getInstance(){
+        if(client == null){
+            client = new RemoteDataSourceImpl();
+        }
+        return client;
+    }
+    private RemoteDataSourceImpl(){
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

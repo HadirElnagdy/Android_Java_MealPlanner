@@ -1,5 +1,7 @@
 package com.example.mealplanner.authentication.signup.presenter;
 
+import android.util.Log;
+
 import com.example.mealplanner.authentication.signup.view.SignupView;
 import com.example.mealplanner.models.AuthenticationManager;
 import com.example.mealplanner.networkLayer.AuthenticationListener;
@@ -15,12 +17,13 @@ public class SignupPresenterImpl implements SignupPresenter, AuthenticationListe
     }
 
     @Override
-    public void signUpWithEmail(String email, String password) {
-        manager.signUpWithEmail(email, password, this);
+    public void signUpWithEmail(String name, String email, String password) {
+        manager.signUpWithEmail(name, email, password, this);
     }
 
     @Override
     public void onSuccess(FirebaseUser user) {
+        Log.i("TAG", "onSuccess: "+user.getDisplayName());
         view.goToSignIn();
     }
 

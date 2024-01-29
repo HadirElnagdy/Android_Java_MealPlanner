@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">MealPlanner</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
+    <string name="log_out">Log Out</string>
+    <string name="sign_up_email">Sign up with email</string>
+    <string name="google">Continue With Google</string>
+    <string name="facebook">Continue with Facebook</string>
+    <string name="microsoft">Continue with Microsoft</string>
+    <string name="already_account">Already have account? Log in</string>
+    <string name="skip" />
+    <string name="skip_">Skip</string>
+
 </resources>

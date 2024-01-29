@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
+    id ("androidx.navigation.safeargs")
 }
 
 android {
@@ -58,5 +59,20 @@ dependencies {
     //Firebase
     implementation("com.google.firebase:firebase-auth:22.3.1")
 
+    //Navigation
+    implementation ("androidx.navigation:navigation-fragment:2.5.3")
+    implementation ("androidx.navigation:navigation-ui:2.5.3")
 
+    //Lottie
+    implementation ("com.airbnb.android:lottie:4.0.0")
+
+    //Circular image
+    implementation ("com.mikhaellopez:circularimageview:4.3.1")
+
+    //RX
+    implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation ("io.reactivex.rxjava3:rxjava:3.1.5")
+
+//    splash
+    implementation("androidx.core:core-splashscreen:1.1.0-alpha02")
 }

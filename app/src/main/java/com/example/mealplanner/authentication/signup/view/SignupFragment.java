@@ -32,6 +32,7 @@ public class SignupFragment extends Fragment implements SignupView{
     Button btnSignup;
     EditText edtEmail;
     EditText edtPassword;
+    EditText edtName;
     SignupPresenter presenter;
 
     public SignupFragment() {
@@ -49,6 +50,7 @@ public class SignupFragment extends Fragment implements SignupView{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
+        edtName = view.findViewById(R.id.edt_name);
         edtEmail = view.findViewById(R.id.edt_regEmail);
         edtPassword = view.findViewById(R.id.edt_regPassword);
         btnSignup = view.findViewById(R.id.btn_signup);
@@ -56,14 +58,15 @@ public class SignupFragment extends Fragment implements SignupView{
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email, password;
+                String email, password, name;
                 email = String.valueOf(edtEmail.getText());
                 password = String.valueOf(edtPassword.getText());
+                name = String.valueOf(edtName.getText());
                 if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
                     Toast.makeText(getContext(), "Please fill your info!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                presenter.signUpWithEmail(email, password);
+                presenter.signUpWithEmail(name, email, password);
             }
         });
         return view;

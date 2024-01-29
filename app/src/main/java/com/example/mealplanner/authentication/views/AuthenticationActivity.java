@@ -1,38 +1,28 @@
 package com.example.mealplanner.authentication.views;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
+
 import com.example.mealplanner.R;
-import com.example.mealplanner.authentication.signin.view.SigninFragment;
-import com.example.mealplanner.authentication.signup.view.SignupFragment;
 
 public class AuthenticationActivity extends AppCompatActivity {
-    OnboardingFragment onboardingFragment;
-    SigninFragment signinFragment;
-    SignupFragment signupFragment;
+    NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
-        loadFragment(new SignupFragment());
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+       // NavigationUI.setupActionBarWithNavController(this, navController);
     }
 
+
     @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1)
-            getSupportFragmentManager().popBackStack();
-        else
-            super.onBackPressed();
-    }
-    public void loadFragment(Fragment fragment){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.authContainerView, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    public boolean onSupportNavigateUp() {
+        return super.onSupportNavigateUp() || navController.navigateUp();
     }
 }

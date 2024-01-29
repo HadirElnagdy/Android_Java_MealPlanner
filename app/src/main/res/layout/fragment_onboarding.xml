@@ -1,6 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".authentication.views.OnboardingFragment" />
+    android:background="#1EC1A2"
+    android:backgroundTint="#65A297"
+    tools:context=".authentication.views.OnboardingFragment">
+
+    <Button
+        android:id="@+id/btn_sign_up_with_email"
+        android:layout_width="272dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#0A1917"
+        android:fontFamily="sans-serif"
+        android:text="@string/sign_up_email"
+        android:textAlignment="center"
+        app:cornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/circularImageView" />
+
+    <View
+        android:id="@+id/div"
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="32dp"
+        android:alpha="1"
+        android:background="@color/white"
+        android:backgroundTint="#FFFFFF"
+        app:layout_constraintStart_toStartOf="@+id/btn_sign_up_with_email"
+        app:layout_constraintTop_toBottomOf="@+id/btn_sign_up_with_email" />
+
+    <View
+        android:id="@+id/div1"
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="32dp"
+        android:alpha="1"
+        android:background="@color/white"
+        android:backgroundTint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/btn_sign_up_with_email"
+        app:layout_constraintTop_toBottomOf="@+id/btn_sign_up_with_email" />
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/circularImageView"
+        android:layout_width="501dp"
+        android:layout_height="459dp"
+        android:layout_marginTop="-180dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_onboarding_food"
+        app:civ_border_color="#003F51B5"
+        app:civ_border_width="4dp"
+        app:civ_shadow="false"
+        app:civ_shadow_color="#003F51B5"
+        app:civ_shadow_radius="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="or"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_sign_up_with_email" />
+
+    <Button
+        android:id="@+id/btn_google"
+        android:layout_width="272dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/darkWhite"
+        android:fontFamily="sans-serif"
+        android:text="@string/google"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        app:cornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_sign_up_with_email"
+        app:layout_constraintStart_toStartOf="@+id/btn_sign_up_with_email"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/btn_facebook"
+        android:layout_width="272dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/darkWhite"
+        android:fontFamily="sans-serif"
+        android:text="@string/facebook"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        app:cornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_sign_up_with_email"
+        app:layout_constraintStart_toStartOf="@+id/btn_sign_up_with_email"
+        app:layout_constraintTop_toBottomOf="@+id/btn_google" />
+
+    <Button
+        android:id="@+id/btn_microsoft"
+        android:layout_width="272dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/darkWhite"
+        android:fontFamily="sans-serif"
+        android:text="@string/microsoft"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        app:cornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_sign_up_with_email"
+        app:layout_constraintStart_toStartOf="@+id/btn_sign_up_with_email"
+        app:layout_constraintTop_toBottomOf="@+id/btn_facebook" />
+
+    <TextView
+        android:id="@+id/txt_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/already_account"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_microsoft" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_google"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_google"
+        app:layout_constraintStart_toStartOf="@+id/btn_google"
+        app:layout_constraintTop_toTopOf="@+id/btn_google" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_facebook"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_facebook"
+        app:layout_constraintStart_toStartOf="@+id/btn_facebook"
+        app:layout_constraintTop_toTopOf="@+id/btn_facebook" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_microsoft"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_microsoft"
+        app:layout_constraintStart_toStartOf="@+id/btn_microsoft"
+        app:layout_constraintTop_toTopOf="@+id/btn_microsoft" />
+
+    <TextView
+        android:id="@+id/txt_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:soundEffectsEnabled="false"
+        android:text="@string/skip_"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="30dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_skip" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="40dp"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/txt_login"
+        app:layout_constraintTop_toBottomOf="@+id/txt_login" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
