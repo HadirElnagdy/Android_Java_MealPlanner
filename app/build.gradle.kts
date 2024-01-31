@@ -38,6 +38,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.firebase:firebase-database:20.3.0")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -57,7 +59,9 @@ dependencies {
     annotationProcessor ("androidx.room:room-compiler:2.6.1")
 
     //Firebase
-    implementation("com.google.firebase:firebase-auth:22.3.1")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     //Navigation
     implementation ("androidx.navigation:navigation-fragment:2.5.3")
@@ -72,7 +76,13 @@ dependencies {
     //RX
     implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
     implementation ("io.reactivex.rxjava3:rxjava:3.1.5")
+    implementation ("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
 
-//    splash
+
+
+    //splash
     implementation("androidx.core:core-splashscreen:1.1.0-alpha02")
+
+
+
 }

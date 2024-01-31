@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#1EC1A2"
     android:backgroundTint="#65A297"
-    tools:context=".authentication.views.OnboardingFragment">
+    tools:context=".authentication.onboarding.view.OnboardingFragment">
 
     <Button
         android:id="@+id/btn_sign_up_with_email"

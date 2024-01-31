@@ -5,6 +5,7 @@ import com.example.mealplanner.models.AreaListResponse;
 import com.example.mealplanner.models.CategoriesResponse;
 import com.example.mealplanner.models.CategoryListResponse;
 import com.example.mealplanner.models.FilteredMeal;
+import com.example.mealplanner.models.FilteredMealsResponse;
 import com.example.mealplanner.models.IngredientListResponse;
 import com.example.mealplanner.models.MealsResponse;
 import retrofit2.Call;
@@ -20,7 +21,7 @@ public interface ApiService {
     Call<CategoriesResponse> getCategories(@Url String url);
 
     @GET
-    Call<FilteredMeal> getFilteredMeals(@Url String url);
+    Call<FilteredMealsResponse> getFilteredMeals(@Url String url);
 
     @GET
     Call<CategoryListResponse> getCategoryList(@Url String url);

@@ -1,24 +1,36 @@
 package com.example.mealplanner.models;
 
+import static android.provider.Settings.System.getString;
+
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.mealplanner.R;
 import com.example.mealplanner.authentication.signin.view.SigninFragment;
 import com.example.mealplanner.networkLayer.AuthenticationListener;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class AuthenticationManager {
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private GoogleSignInClient mGoogleSignInClient;
 
     public AuthenticationManager() {
         mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
+
     }
 
     public void signInWithEmail(String email, String password, AuthenticationListener listener) {

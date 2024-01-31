@@ -16,6 +16,7 @@ public class ImageLoader {
     public void loadImage(String imageUrl, ImageView imageView) {
         Glide.with(context)
                 .load(imageUrl)
+                .centerCrop()
                 .into(imageView);
     }
 }

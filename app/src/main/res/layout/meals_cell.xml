@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraing_layout_meals_cell"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -21,44 +22,53 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/img_cell_meal"
-                android:layout_width="wrap_content"
+                android:id="@+id/img_random_meal"
+                android:layout_width="150dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="-5dp"
+                android:layout_marginBottom="-5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <TextView
-                android:id="@+id/txt_cell_meal_name"
-                android:layout_width="wrap_content"
+                android:id="@+id/txt_random_meal"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:text="TextView"
-                app:layout_constraintStart_toEndOf="@+id/img_cell_meal"
+                android:textSize="15.5sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/btn_save_random"
+                app:layout_constraintStart_toEndOf="@+id/img_random_meal"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/btn_cell_add_plan"
+                android:id="@+id/btn_add_plan_random"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="16dp"
-                android:text="Add to plan"
+                android:text="@string/add_to_plan"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/img_cell_meal"
-                app:layout_constraintTop_toBottomOf="@+id/txt_cell_meal_name" />
+                app:layout_constraintStart_toEndOf="@+id/img_random_meal"
+                app:layout_constraintTop_toBottomOf="@+id/txt_random_meal" />
 
             <ImageButton
-                android:id="@+id/imageButton4"
-                android:layout_width="49dp"
-                android:layout_height="47dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
+                android:id="@+id/btn_save_random"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#00FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_save" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

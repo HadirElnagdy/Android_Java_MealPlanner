@@ -74,7 +74,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
                 return (Call<T>) apiService.getCategoryList(url);
             case "IngredientListResponse":
                 return (Call<T>) apiService.getIngredientList(url);
-            case "FilteredMeal":
+            case "FilteredMealsResponse":
                 return (Call<T>) apiService.getFilteredMeals(url);
             default:
                 return null;

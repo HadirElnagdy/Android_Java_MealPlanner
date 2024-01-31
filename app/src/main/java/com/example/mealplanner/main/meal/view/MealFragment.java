@@ -1,4 +1,4 @@
-package com.example.mealplanner.main.plan;
+package com.example.mealplanner.main.meal.view;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.mealplanner.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CalendarFragment#newInstance} factory method to
+ * Use the {@link MealFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CalendarFragment extends Fragment {
+public class MealFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class CalendarFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CalendarFragment() {
+    public MealFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class CalendarFragment extends Fragment {
      * @return A new instance of fragment MealFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CalendarFragment newInstance(String param1, String param2) {
-        CalendarFragment fragment = new CalendarFragment();
+    public static MealFragment newInstance(String param1, String param2) {
+        MealFragment fragment = new MealFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calendar, container, false);
+        return inflater.inflate(R.layout.fragment_meal, container, false);
     }
 }

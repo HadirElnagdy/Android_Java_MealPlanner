@@ -1,5 +1,6 @@
 package com.example.mealplanner.authentication.signin.presenter;
 
+import com.example.mealplanner.authentication.signin.view.SigninFragment;
 import com.example.mealplanner.authentication.signin.view.SigninView;
 import com.example.mealplanner.models.AuthenticationManager;
 import com.example.mealplanner.networkLayer.AuthenticationListener;

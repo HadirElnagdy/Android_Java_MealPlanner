@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.mealplanner.R;
-import com.example.mealplanner.authentication.views.AuthenticationActivity;
+import com.example.mealplanner.authentication.view.AuthenticationActivity;
 import com.example.mealplanner.main.view.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,7 +20,9 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth.getInstance().signOut(); //remove this lineeeeeeeeeeeee
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
 
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -1,4 +1,3 @@
-/*
 package com.example.mealplanner.database;
 
 import androidx.lifecycle.LiveData;
@@ -9,18 +8,18 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.mealplanner.models.Meal;
+import com.example.mealplanner.models.SavedMeal;
 
 import java.util.List;
 
-@Dao
+//@Dao
 public interface MealsDAO {
-    @Query("SELECT * From meals_table")
-    LiveData<List<Meal>> getAllMeals();
+    /*@Query("SELECT * From saved_meals_table")
+    LiveData<List<SavedMeal>> getAllMeals();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertMeal(Meal Meal);
+    void insertMeal(SavedMeal Meal);
 
     @Delete
-    void deleteMeal(Meal meal);
+    void deleteMeal(SavedMeal meal);*/
 }
-*/

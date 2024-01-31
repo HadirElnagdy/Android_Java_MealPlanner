@@ -1,4 +1,4 @@
-package com.example.mealplanner.authentication.views;
+package com.example.mealplanner.authentication.onboarding.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +15,11 @@ import android.widget.TextView;
 import com.example.mealplanner.R;
 import com.example.mealplanner.main.view.MainActivity;
 
-public class OnboardingFragment extends Fragment {
+public class OnboardingFragment extends Fragment implements OnboardingView{
     Button btnSignUpMail;
+    Button btnGoogle;
+    Button btnFacebook;
+    Button btnMicrosoft;
 
     TextView txtSignInMail;
     TextView txtSkip;
@@ -37,6 +40,9 @@ public class OnboardingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_onboarding, container, false);
         btnSignUpMail = view.findViewById(R.id.btn_sign_up_with_email);
+        btnGoogle = view.findViewById(R.id.btn_google);
+        btnFacebook = view.findViewById(R.id.btn_facebook);
+        btnMicrosoft = view.findViewById(R.id.btn_microsoft);
         txtSignInMail = view.findViewById(R.id.txt_login);
         txtSkip = view.findViewById(R.id.txt_skip);
         btnSignUpMail.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +67,18 @@ public class OnboardingFragment extends Fragment {
             }
         });
 
+
+
         return view;
+    }
+
+    @Override
+    public void goToHome() {
+
+    }
+
+    @Override
+    public void showErrorMsg(String errorMessage) {
+
     }
 }

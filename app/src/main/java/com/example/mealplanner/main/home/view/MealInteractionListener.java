@@ -1,7 +1,7 @@
 package com.example.mealplanner.main.home.view;
 
 public interface MealInteractionListener {
-    void onAddToFavoritesClick(int position);
-    void onAddToPlanClick(int position);
-    void onOpenMealClick(int position);
+    void onAddToFavoritesClick(String mealId);
+    void onAddToPlanClick(String mealId);
+    void onOpenMealClick(String mealId);
 }
