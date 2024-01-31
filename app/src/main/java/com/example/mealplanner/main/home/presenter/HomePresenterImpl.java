@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.example.mealplanner.main.home.view.HomeView;
 import com.example.mealplanner.models.CategoryListResponse;
-import com.example.mealplanner.models.CategoryName;
 import com.example.mealplanner.models.CategoryRepository;
 import com.example.mealplanner.models.FilteredMealsResponse;
 import com.example.mealplanner.models.MealsRepository;
@@ -53,7 +52,7 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
                 Log.i(TAG, "LIST_ALL: "+((CategoryListResponse)response).getCategoryNames());
                 break;
             case Constants.APIEndpoints.FILTER_MEALS:
-                view.showMeals(((FilteredMealsResponse)response).getMeals());
+                view.addToMealsList(((FilteredMealsResponse)response).getMeals());
                 Log.i(TAG, "FILTER_MEALS: " + ((FilteredMealsResponse)response).getMeals());
                 break;
         }

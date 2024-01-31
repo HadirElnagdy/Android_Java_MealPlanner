@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
     ImageLoader imageLoader;
 
     List<CategoryName> categoryNames;
-    List<FilteredMeal> mealList;
+    List<List<FilteredMeal>> mealList;
     HomePresenter presenter;
 
 
@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         Log.i("TAG", "onViewCreated: i'm home");
+        mealList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recycler_view_home);
         txtRandomMeal = view.findViewById(R.id.txt_random_meal);
         btnAddToPlan = view.findViewById(R.id.btn_add_plan_random);
@@ -117,9 +118,12 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
     //we should send List<List<FilteredMeal>> meals to the adapter so that each category takes one
 
     @Override
-    public void showMeals(List<FilteredMeal> meals) {
-        adapter.setList(categoryNames, meals);
-        adapter.notifyDataSetChanged();
+    public void addToMealsList(List<FilteredMeal> meals) {
+        mealList.add(meals);
+        if(mealList.size() == categoryNames.size()){
+            adapter.setList(categoryNames, mealList);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override

@@ -21,10 +21,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     private Context context;
     private List<CategoryName> categoryNames;
-    private List<FilteredMeal> meals;
+    private List<List<FilteredMeal>> meals;
     private MealInteractionListener listener;
 
-    public HomeAdapter(Context context, List<CategoryName> categoryNames, List<FilteredMeal> meals, MealInteractionListener listener) {
+    public HomeAdapter(Context context, List<CategoryName> categoryNames, List<List<FilteredMeal>> meals, MealInteractionListener listener) {
         this.context = context;
         this.categoryNames = categoryNames;
         this.meals = meals;
@@ -37,7 +37,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_cell, parent, false);
         return new ViewHolder(view);
     }
-    public void setList(List<CategoryName> categoryNames, List<FilteredMeal> meals){
+    public void setList(List<CategoryName> categoryNames, List<List<FilteredMeal>> meals){
         this.categoryNames = categoryNames;
         this.meals = meals;
     }
@@ -47,7 +47,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.txtCategoryName.setText(categoryName);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         holder.recyclerViewMeals.setLayoutManager(layoutManager);
-        CategoryMealsAdapter mealAdapter = new CategoryMealsAdapter(context, meals, listener);
+        CategoryMealsAdapter mealAdapter = new CategoryMealsAdapter(context, meals.get(position), listener);
         holder.recyclerViewMeals.setAdapter(mealAdapter);
 
     }
