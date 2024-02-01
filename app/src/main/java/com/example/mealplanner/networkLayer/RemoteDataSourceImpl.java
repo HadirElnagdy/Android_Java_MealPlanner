@@ -1,6 +1,12 @@
 package com.example.mealplanner.networkLayer;
 
+import android.util.Log;
+
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,22 +36,20 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
     }
 
     public <T> void makeGetRequest(String endpoint, Map<String, String> queryParams, ApiCallback<Object> callback, Class<T> responseType) {
-        Call<T> call = getCall(responseType, buildUrl(endpoint, queryParams));
-        if (call != null) {
-            call.enqueue(new Callback<T>() {
-                @Override
-                public void onResponse(Call<T> call, Response<T> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess(response.body(), endpoint);
-                    } else {
-                        callback.onError(response.code(), response.message());
-                    }
-                }
-                @Override
-                public void onFailure(Call<T> call, Throwable t) {
-                    callback.onFailure(t);
-                }
-            });
+        Observable<T> observable = getObservable(responseType, buildUrl(endpoint, queryParams));
+        if (observable != null) {
+            Disposable subscribe = observable.subscribeOn(Schedulers.io())
+                    .retry(10)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(response -> {
+//                                Log.i("TAG", "onResponse: " + response.getProducts().get(0).getTitle());
+                                callback.onSuccess(response, endpoint);
+                            },
+                            error -> {
+                                Log.i("TAG", "Error: " + error.getMessage());
+                                callback.onFailure(error);
+                            }
+                    );
         } else {
             throw new IllegalArgumentException("Unsupported response type: " + responseType.getSimpleName());
         }
@@ -64,20 +68,20 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
         return urlBuilder.toString();
     }
 
-    private <T> Call<T> getCall(Class<T> responseType, String url) {
+    private <T> Observable<T> getObservable(Class<T> responseType, String url) {
         switch (responseType.getSimpleName()) {
             case "MealsResponse":
-                return (Call<T>) apiService.getMeals(url);
+                return (Observable<T>) apiService.getMeals(url);
             case "CategoriesResponse":
-                return (Call<T>) apiService.getCategories(url);
+                return (Observable<T>) apiService.getCategories(url);
             case "AreaListResponse":
-                return (Call<T>) apiService.getAreaList(url);
+                return (Observable<T>) apiService.getAreaList(url);
             case "CategoryListResponse":
-                return (Call<T>) apiService.getCategoryList(url);
+                return (Observable<T>) apiService.getCategoryList(url);
             case "IngredientListResponse":
-                return (Call<T>) apiService.getIngredientList(url);
+                return (Observable<T>) apiService.getIngredientList(url);
             case "FilteredMealsResponse":
-                return (Call<T>) apiService.getFilteredMeals(url);
+                return (Observable<T>) apiService.getFilteredMeals(url);
             default:
                 return null;
         }

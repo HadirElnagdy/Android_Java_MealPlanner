@@ -4,11 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 
-
+@Entity(tableName = "saved_meals_table")
 public class Meal implements Parcelable {
 
+    @PrimaryKey
+    @NonNull
     private String idMeal;
     private String strMeal;
     private String strDrinkAlternate;
@@ -63,6 +67,7 @@ public class Meal implements Parcelable {
     private String strCreativeCommonsConfirmed;
     private String dateModified;
 
+    public Meal(){}
     protected Meal(Parcel in) {
         idMeal = in.readString();
         strMeal = in.readString();

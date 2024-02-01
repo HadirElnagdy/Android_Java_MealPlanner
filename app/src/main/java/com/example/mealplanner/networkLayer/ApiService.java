@@ -8,6 +8,8 @@ import com.example.mealplanner.models.FilteredMeal;
 import com.example.mealplanner.models.FilteredMealsResponse;
 import com.example.mealplanner.models.IngredientListResponse;
 import com.example.mealplanner.models.MealsResponse;
+
+import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Url;
@@ -15,21 +17,21 @@ import retrofit2.http.Url;
 public interface ApiService {
 
     @GET
-    Call<MealsResponse> getMeals(@Url String url);
+    Observable<MealsResponse> getMeals(@Url String url);
 
     @GET
-    Call<CategoriesResponse> getCategories(@Url String url);
+    Observable<CategoriesResponse> getCategories(@Url String url);
 
     @GET
-    Call<FilteredMealsResponse> getFilteredMeals(@Url String url);
+    Observable<FilteredMealsResponse> getFilteredMeals(@Url String url);
 
     @GET
-    Call<CategoryListResponse> getCategoryList(@Url String url);
+    Observable<CategoryListResponse> getCategoryList(@Url String url);
 
     @GET
-    Call<AreaListResponse> getAreaList(@Url String url);
+    Observable<AreaListResponse> getAreaList(@Url String url);
 
     @GET
-    Call<IngredientListResponse> getIngredientList(@Url String url);
+    Observable<IngredientListResponse> getIngredientList(@Url String url);
 
 }

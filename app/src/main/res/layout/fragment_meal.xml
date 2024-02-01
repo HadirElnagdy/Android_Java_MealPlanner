@@ -4,4 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.meal.view.MealFragment"/>
+    tools:context=".main.meal.view.MealFragment">
+
+   <!-- <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="408dp"
+                android:layout_height="253dp"
+                android:src="@tools:sample/avatars"
+                tools:layout_editor_absoluteX="4dp"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/btn_star"
+                tools:layout_editor_absoluteX="339dp"
+                tools:layout_editor_absoluteY="307dp" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="256dp"
+                android:layout_height="55dp"
+                android:text="Button"
+                tools:layout_editor_absoluteX="4dp"
+                tools:layout_editor_absoluteY="307dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="411dp"
+                android:layout_height="109dp"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="375dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="349dp"
+                android:layout_height="72dp"
+                tools:layout_editor_absoluteX="31dp"
+                tools:layout_editor_absoluteY="211dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>-->
+</androidx.constraintlayout.widget.ConstraintLayout>

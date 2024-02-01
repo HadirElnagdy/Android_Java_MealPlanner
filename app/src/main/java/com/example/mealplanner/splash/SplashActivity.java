@@ -23,7 +23,6 @@ public class SplashActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut(); //remove this lineeeeeeeeeeeee
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

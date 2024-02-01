@@ -77,7 +77,7 @@ public class CategoryMealsAdapter extends RecyclerView.Adapter<CategoryMealsAdap
         Integer currentImgResID = (Integer) btn.getTag();
 
         // Check if the current image resource ID matches ic_save
-        if (currentImgResID != null && currentImgResID == R.drawable.ic_save) {
+        if (currentImgResID == null || currentImgResID == R.drawable.ic_save) {
             // Set the image resource ID to ic_saved
             btn.setImageResource(R.drawable.ic_saved);
             // Update the tag with the new image resource ID

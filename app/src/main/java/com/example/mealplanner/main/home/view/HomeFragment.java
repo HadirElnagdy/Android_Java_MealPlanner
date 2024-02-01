@@ -118,7 +118,6 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
         }
     }
 
-
     @Override
     public void showError(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -152,9 +151,8 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
     private void switchBtnImg(ImageButton btn) {
         // Get the current image resource ID
         Integer currentImgResID = (Integer) btn.getTag();
-
         // Check if the current image resource ID matches ic_save
-        if (currentImgResID != null && currentImgResID == R.drawable.ic_save) {
+        if (currentImgResID == null || currentImgResID == R.drawable.ic_save) {
             // Set the image resource ID to ic_saved
             btn.setImageResource(R.drawable.ic_saved);
             // Update the tag with the new image resource ID
