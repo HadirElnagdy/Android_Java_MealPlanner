@@ -44,7 +44,7 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
     public void onSuccess(Object response, String endpoint) {
         switch (endpoint){
             case Constants.APIEndpoints.RANDOM_MEAL:
-                view.ShowRandomMeal(((MealsResponse)response).getMeals().get(0));
+                view.showRandomMeal(((MealsResponse)response).getMeals().get(0));
                 Log.i(TAG, "RANDOM_MEAL: "+(((MealsResponse)response).getMeals().get(0)));
                 break;
             case Constants.APIEndpoints.LIST_ALL:

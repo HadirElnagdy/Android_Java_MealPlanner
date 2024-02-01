@@ -12,6 +12,12 @@ public class Constants {
         public static final String FILTER_MEALS = "filter.php";
         public static final String LIST_ALL = "list.php";
 
+    }
+
+    public class Keys {
+        public static final String RANDOM_MEAL = "randomMeal";
+        public static final String CATEGORY_NAMES = "categoryNames";
+        public static final String MEALS_LIST = "mealsList";
 
 
     }

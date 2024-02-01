@@ -1,6 +1,7 @@
 package com.example.mealplanner.main.home.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,11 +44,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String categoryName = categoryNames.get(position).getStrCategory();
+        String categoryName = categoryNames.get(holder.getAdapterPosition()).getStrCategory();
+        Log.i("TAG", "onBindViewHolder: position: "+position);
         holder.txtCategoryName.setText(categoryName);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         holder.recyclerViewMeals.setLayoutManager(layoutManager);
-        CategoryMealsAdapter mealAdapter = new CategoryMealsAdapter(context, meals.get(position), listener);
+        CategoryMealsAdapter mealAdapter = new CategoryMealsAdapter(context, meals.get(holder.getAdapterPosition()), listener);
+        Log.i("TAG", "onBindViewHolder: position: "+position);
         holder.recyclerViewMeals.setAdapter(mealAdapter);
 
     }

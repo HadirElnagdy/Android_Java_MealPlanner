@@ -11,6 +11,6 @@ public interface HomeView {
    public void showMealCategories(List<CategoryName> categories);
    public void addToMealsList(List<FilteredMeal> meals);
    public void showError(String message);
-   public void ShowRandomMeal(Meal meal);
+   public void showRandomMeal(Meal meal);
 
 }

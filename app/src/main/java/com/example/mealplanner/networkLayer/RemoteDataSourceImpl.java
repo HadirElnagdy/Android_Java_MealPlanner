@@ -1,5 +1,6 @@
 package com.example.mealplanner.networkLayer;
 
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,6 +24,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
     }
