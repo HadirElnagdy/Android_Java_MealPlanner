@@ -1,4 +1,4 @@
-package com.example.mealplanner.main.home.view;
+package com.example.mealplanner.main.search.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,18 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealplanner.R;
 import com.example.mealplanner.main.view.MealInteractionListener;
-import com.example.mealplanner.models.FilteredMeal;
+import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.networkLayer.ImageLoader;
 
 import java.util.List;
 
-public class CategoryMealsAdapter extends RecyclerView.Adapter<CategoryMealsAdapter.ViewHolder>{
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder>{
 
-    private final List<FilteredMeal> meals;
+    private List<Meal> meals;
     private final MealInteractionListener listener;
     private final ImageLoader imgLoader;
 
-    public CategoryMealsAdapter(Context context, List<FilteredMeal> meals, MealInteractionListener listener) {
+    public SearchAdapter(Context context, List<Meal> meals, MealInteractionListener listener) {
         this.meals = meals;
         this.listener = listener;
         imgLoader = new ImageLoader(context);
@@ -34,20 +34,20 @@ public class CategoryMealsAdapter extends RecyclerView.Adapter<CategoryMealsAdap
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SearchAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.meals_cell, parent, false);
-        return new ViewHolder(view);
+        return new SearchAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FilteredMeal meal = meals.get(position);
+    public void onBindViewHolder(@NonNull SearchAdapter.ViewHolder holder, int position) {
+        Meal meal = meals.get(position);
         holder.txtMealName.setText(meal.getStrMeal());
         imgLoader.loadImage(meal.getStrMealThumb(), holder.imgMeal);
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onOpenMealClick(meal.getIDMeal());
+                listener.onOpenMealClick(meal.getIdMeal());
             }
         });
 
@@ -55,7 +55,7 @@ public class CategoryMealsAdapter extends RecyclerView.Adapter<CategoryMealsAdap
             @Override
             public void onClick(View view) {
                 switchBtnImg(holder.btnSaveMeal);
-                listener.onAddToSaved(meal.getIDMeal());
+                listener.onAddToSaved(meal.getIdMeal());
 
             }
         });
@@ -63,9 +63,14 @@ public class CategoryMealsAdapter extends RecyclerView.Adapter<CategoryMealsAdap
         holder.btnAddToPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onAddToPlanClick(meal.getIDMeal());
+                listener.onAddToPlanClick(meal.getIdMeal());
             }
         });
+    }
+
+    public void setList(List<Meal> meals){
+        this.meals = meals;
+       // if (meals == null) Log.e("SearchAdapter", "setList: meals is nullllll");
     }
 
     @Override
@@ -74,19 +79,16 @@ public class CategoryMealsAdapter extends RecyclerView.Adapter<CategoryMealsAdap
     }
 
     private void switchBtnImg(ImageButton btn) {
-        // Get the current image resource ID
         Integer currentImgResID = (Integer) btn.getTag();
-
-        // Check if the current image resource ID matches ic_save
         if (currentImgResID == null || currentImgResID == R.drawable.ic_save) {
-            // Set the image resource ID to ic_saved
+
             btn.setImageResource(R.drawable.ic_saved);
-            // Update the tag with the new image resource ID
+
             btn.setTag(R.drawable.ic_saved);
         } else {
-            // Set the image resource ID to ic_save
+
             btn.setImageResource(R.drawable.ic_save);
-            // Update the tag with the new image resource ID
+
             btn.setTag(R.drawable.ic_save);
         }
     }

@@ -7,13 +7,20 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "saved_meals_table")
+
+@Entity(tableName = "meals_table", primaryKeys = {"idMeal", "userEmail", "dbType"})
 public class Meal implements Parcelable {
-
-    @PrimaryKey
     @NonNull
     private String idMeal;
+    @SerializedName("strCreativeCommonsConfirmed")
+    @NonNull
+    private String userEmail;
+
+    @SerializedName("dateModified")
+    @NonNull
+    private String dbType;
     private String strMeal;
     private String strDrinkAlternate;
     private String strCategory;
@@ -64,8 +71,7 @@ public class Meal implements Parcelable {
     private String strMeasure20;
     private String strSource;
     private String strImageSource;
-    private String strCreativeCommonsConfirmed;
-    private String dateModified;
+
 
     public Meal(){}
     protected Meal(Parcel in) {
@@ -120,8 +126,8 @@ public class Meal implements Parcelable {
         strMeasure20 = in.readString();
         strSource = in.readString();
         strImageSource = in.readString();
-        strCreativeCommonsConfirmed = in.readString();
-        dateModified = in.readString();
+        userEmail = in.readString();
+        dbType = in.readString();
     }
 
     public static final Creator<Meal> CREATOR = new Creator<Meal>() {
@@ -544,20 +550,20 @@ public class Meal implements Parcelable {
         this.strImageSource = strImageSource;
     }
 
-    public String getStrCreativeCommonsConfirmed() {
-        return strCreativeCommonsConfirmed;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setStrCreativeCommonsConfirmed(String strCreativeCommonsConfirmed) {
-        this.strCreativeCommonsConfirmed = strCreativeCommonsConfirmed;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
-    public String getDateModified() {
-        return dateModified;
+    public String getDbType() {
+        return dbType;
     }
 
-    public void setDateModified(String dateModified) {
-        this.dateModified = dateModified;
+    public void setDbType(String dbType) {
+        this.dbType = dbType;
     }
 
     @Override
@@ -618,7 +624,7 @@ public class Meal implements Parcelable {
         parcel.writeString(strMeasure20);
         parcel.writeString(strSource);
         parcel.writeString(strImageSource);
-        parcel.writeString(strCreativeCommonsConfirmed);
-        parcel.writeString(dateModified);
+        parcel.writeString(userEmail);
+        parcel.writeString(dbType);
     }
 }

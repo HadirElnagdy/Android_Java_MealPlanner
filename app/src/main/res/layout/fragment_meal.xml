@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".main.meal.view.MealFragment">
 
-   <!-- <ScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="1dp"
@@ -17,40 +17,103 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="408dp"
-                android:layout_height="253dp"
-                android:src="@tools:sample/avatars"
-                tools:layout_editor_absoluteX="4dp"
-                tools:layout_editor_absoluteY="0dp" />
+                android:id="@+id/img_meal"
+                android:layout_width="470dp"
+                android:layout_height="254dp"
+                android:layout_marginStart="-20dp"
+                android:layout_marginEnd="-20dp"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/btn_star"
-                tools:layout_editor_absoluteX="339dp"
-                tools:layout_editor_absoluteY="307dp" />
+                android:id="@+id/btn_save_meal"
+                android:layout_width="48dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="40dp"
+                android:backgroundTint="#00FFFFFF"
+                android:src="@drawable/ic_save_laarge"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btn_add_to_plan" />
 
             <Button
-                android:id="@+id/button"
-                android:layout_width="256dp"
-                android:layout_height="55dp"
-                android:text="Button"
-                tools:layout_editor_absoluteX="4dp"
-                tools:layout_editor_absoluteY="307dp" />
+                android:id="@+id/btn_add_to_plan"
+                android:layout_width="289dp"
+                android:layout_height="54dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/add_to_plan"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_meal_name" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_ingredients"
                 android:layout_width="411dp"
-                android:layout_height="109dp"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="375dp" />
+                android:layout_height="138dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="349dp"
-                android:layout_height="72dp"
-                tools:layout_editor_absoluteX="31dp"
-                tools:layout_editor_absoluteY="211dp" />
+            <TextView
+                android:id="@+id/txt_instructions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/recycler_view_ingredients"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/ingredients"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_add_to_plan" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/instructions"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/textView5"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_ingredients" />
+
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/ytPlayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_instructions" />
+
+            <TextView
+                android:id="@+id/txt_meal_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_meal" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>-->
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

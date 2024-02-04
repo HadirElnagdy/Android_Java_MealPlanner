@@ -1,6 +1,7 @@
 package com.example.mealplanner.networkLayer;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -27,6 +28,7 @@ public class ImageLoader {
                 .load(buildUrl(ingredientName))
                 .centerCrop()
                 .into(imageView);
+        Log.i("TAG", "loadIngredientImage: "+buildUrl(ingredientName));
     }
 
     private String buildUrl(String ingredientName) {

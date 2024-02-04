@@ -6,6 +6,7 @@ import com.example.mealplanner.main.home.view.HomeView;
 import com.example.mealplanner.models.CategoryListResponse;
 import com.example.mealplanner.models.CategoryRepository;
 import com.example.mealplanner.models.FilteredMealsResponse;
+import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepository;
 import com.example.mealplanner.models.MealsResponse;
 import com.example.mealplanner.networkLayer.ApiCallback;
@@ -37,6 +38,26 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
     @Override
     public void getRandomMeal() {
         mealsRepository.getRandomMeal(this);
+    }
+
+    @Override
+    public void addMealToSaved(Meal meal) {
+
+    }
+
+    @Override
+    public void deleteMealFromSaved(Meal meal) {
+
+    }
+
+    @Override
+    public void addMealToPlan(Meal meal) {
+
+    }
+
+    @Override
+    public void deleteMealFromPlan(Meal meal) {
+
     }
 
 

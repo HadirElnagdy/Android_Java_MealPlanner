@@ -43,5 +43,10 @@
         android:id="@+id/mealFragment"
         android:name="com.example.mealplanner.main.meal.view.MealFragment"
         android:label="fragment_meal"
-        tools:layout="@layout/fragment_meal" />
+        tools:layout="@layout/fragment_meal" >
+        <argument
+            android:name="meal"
+            app:argType="com.example.mealplanner.models.Meal"
+            app:nullable="true" />
+    </fragment>
 </navigation>

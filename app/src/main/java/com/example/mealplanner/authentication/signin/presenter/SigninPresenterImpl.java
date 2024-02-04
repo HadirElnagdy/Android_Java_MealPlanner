@@ -1,17 +1,16 @@
 package com.example.mealplanner.authentication.signin.presenter;
 
-import com.example.mealplanner.authentication.signin.view.SigninFragment;
 import com.example.mealplanner.authentication.signin.view.SigninView;
-import com.example.mealplanner.models.AuthenticationManager;
+import com.example.mealplanner.models.UserManager;
 import com.example.mealplanner.networkLayer.AuthenticationListener;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SigninPresenterImpl implements SigninPresenter, AuthenticationListener {
     SigninView view;
-    AuthenticationManager manager;
+    UserManager manager;
     public SigninPresenterImpl(SigninView view){
         this.view = view;
-        manager = new AuthenticationManager();
+        manager = new UserManager();
     }
     @Override
     public void signInWithEmail(String email, String password) {

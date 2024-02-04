@@ -6,8 +6,8 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 
-public interface SavedMealsLocalDataSource {
-    void insertMeal(Meal meal);
-    void deleteMeal(Meal meal);
+public interface MealsLocalDataSource {
+    void insertSavedMeal(Meal meal);
+    void deleteSavedMeal(Meal meal);
     Observable<List<Meal>> getAllSavedMeals();
 }

@@ -20,7 +20,7 @@
         app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/circularImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/circular_img" />
 
     <View
         android:id="@+id/div"
@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_sign_up_with_email" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/circularImageView"
+        android:id="@+id/circular_img"
         android:layout_width="501dp"
         android:layout_height="459dp"
         android:layout_marginTop="-180dp"

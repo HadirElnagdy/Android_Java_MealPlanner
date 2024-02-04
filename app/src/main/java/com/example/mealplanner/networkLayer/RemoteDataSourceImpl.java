@@ -42,11 +42,10 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
                     .retry(10)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(response -> {
-//                                Log.i("TAG", "onResponse: " + response.getProducts().get(0).getTitle());
                                 callback.onSuccess(response, endpoint);
                             },
                             error -> {
-                                Log.i("TAG", "Error: " + error.getMessage());
+                                Log.i("RemoteDataSourceImpl", "Error: " + error.getMessage());
                                 callback.onFailure(error);
                             }
                     );

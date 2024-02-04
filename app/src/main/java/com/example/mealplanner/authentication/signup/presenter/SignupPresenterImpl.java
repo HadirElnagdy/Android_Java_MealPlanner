@@ -3,17 +3,17 @@ package com.example.mealplanner.authentication.signup.presenter;
 import android.util.Log;
 
 import com.example.mealplanner.authentication.signup.view.SignupView;
-import com.example.mealplanner.models.AuthenticationManager;
+import com.example.mealplanner.models.UserManager;
 import com.example.mealplanner.networkLayer.AuthenticationListener;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignupPresenterImpl implements SignupPresenter, AuthenticationListener {
 
     SignupView view;
-    AuthenticationManager manager;
+    UserManager manager;
     public SignupPresenterImpl(SignupView view){
         this.view = view;
-        manager = new AuthenticationManager();
+        manager = new UserManager();
     }
 
     @Override

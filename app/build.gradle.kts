@@ -62,6 +62,8 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    //Firestore
+    implementation ("com.google.firebase:firebase-firestore:24.10.1")
 
     //Navigation
     implementation ("androidx.navigation:navigation-fragment:2.5.3")
@@ -80,10 +82,11 @@ dependencies {
     implementation("androidx.room:room-rxjava3:$2.6.1")
 
 
+    //youtubeVideo
+    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
 
     //splash
     implementation("androidx.core:core-splashscreen:1.1.0-alpha02")
-
 
 
 }

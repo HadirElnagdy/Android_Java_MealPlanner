@@ -14,12 +14,15 @@ import io.reactivex.rxjava3.core.Observable;
 
 @Dao
 public interface MealsDAO {
-    @Query("SELECT * From saved_meals_table")
-    Observable<List<Meal>> getAllMeals();
+    @Query("SELECT * FROM meals_table WHERE dbType = 'Saved' AND userEmail = :userEmail")
+    Observable<List<Meal>> getAllSavedMeals(String userEmail);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertMeal(Meal Meal);
+    void insertSavedMeal(Meal Meal);
 
     @Delete
-    void deleteMeal(Meal meal);
+    void deleteSavedMeal(Meal meal);
+
+    @Query("SELECT EXISTS(SELECT 1 FROM meals_table WHERE idMeal = :idMeal AND userEmail = :userEmail AND dbType = 'Saved')")
+    boolean isSaved(String idMeal, String userEmail);
 }
