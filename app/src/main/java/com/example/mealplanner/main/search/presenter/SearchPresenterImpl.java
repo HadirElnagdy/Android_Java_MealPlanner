@@ -1,43 +1,39 @@
 package com.example.mealplanner.main.search.presenter;
 
-import android.util.Log;
-
 import com.example.mealplanner.main.search.view.SearchView;
-import com.example.mealplanner.models.FilteredMealsResponse;
+import com.example.mealplanner.models.AreaListResponse;
+import com.example.mealplanner.models.AreaRepository;
+import com.example.mealplanner.models.CategoryListResponse;
+import com.example.mealplanner.models.CategoryRepository;
+import com.example.mealplanner.models.IngredientListResponse;
+import com.example.mealplanner.models.IngredientsRepository;
 import com.example.mealplanner.models.MealsRepository;
 import com.example.mealplanner.models.MealsResponse;
 import com.example.mealplanner.networkLayer.ApiCallback;
 import com.example.mealplanner.networkLayer.Constants;
 
 public class SearchPresenterImpl implements SearchPresenter, ApiCallback<Object> {
-    MealsRepository repo;
+    MealsRepository mealsRepository;
+    CategoryRepository categoryRepository;
+    IngredientsRepository ingredientsRepository;
+    AreaRepository areaRepository;
     SearchView view;
     String TAG = "SearchPresenterImpl";
 
-    public SearchPresenterImpl(MealsRepository repo, SearchView view) {
-        this.repo = repo;
+    public SearchPresenterImpl(MealsRepository mealsRepository, CategoryRepository categoryRepository, IngredientsRepository ingredientsRepository, AreaRepository areaRepository, SearchView view) {
+        this.mealsRepository = mealsRepository;
+        this.categoryRepository = categoryRepository;
+        this.ingredientsRepository = ingredientsRepository;
+        this.areaRepository = areaRepository;
         this.view = view;
     }
 
     @Override
     public void searchMeals(String mealName) {
-        repo.getMealsByName(mealName, this);
+        mealsRepository.getMealsByName(mealName, this);
     }
 
-    @Override
-    public void filterMealsByCategory(String categoryName) {
 
-    }
-
-    @Override
-    public void filterMealsByIngredients(String... ingredients) {
-
-    }
-
-    @Override
-    public void filterMealsByArea(String areaName) {
-
-    }
 
     @Override
     public void addToSaved(String mealId) {
@@ -60,11 +56,32 @@ public class SearchPresenterImpl implements SearchPresenter, ApiCallback<Object>
     }
 
     @Override
+    public void getCategoryList() {
+        categoryRepository.getCategoryList(this);
+    }
+
+    @Override
+    public void getIngredientList() {
+        ingredientsRepository.getIngredientList(this);
+    }
+
+    @Override
+    public void getAreaList() {
+        areaRepository.getAreaList(this);
+    }
+
+    @Override
     public void onSuccess(Object response, String endpoint) {
         if (endpoint.equals(Constants.APIEndpoints.SEARCH_MEAL)) {
             view.showSearchResults(((MealsResponse) response).getMeals());
         }else if(endpoint.equals(Constants.APIEndpoints.LIST_ALL)){
-
+            if(response instanceof CategoryListResponse){
+                view.showCategoryList(((CategoryListResponse)response).getCategoryNames());
+            }else if(response instanceof IngredientListResponse){
+                view.showIngredientList(((IngredientListResponse)response).getIngredients());
+            }else {
+                view.showAreaList(((AreaListResponse)response).getAreaNames());
+            }
         }
 
     }

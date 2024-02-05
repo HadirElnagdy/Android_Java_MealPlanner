@@ -18,6 +18,10 @@ public class Constants {
         public static final String RANDOM_MEAL = "randomMeal";
         public static final String CATEGORY_NAMES = "categoryNames";
         public static final String MEALS_LIST = "mealsList";
+        public static final String CATEGORY = "Category";
+        public static final String INGREDIENT = "Ingredient";
+        public static final String AREA = "Area";
+
 
 
     }

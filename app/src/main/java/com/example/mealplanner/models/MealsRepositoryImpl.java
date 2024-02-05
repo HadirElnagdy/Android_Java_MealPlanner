@@ -39,10 +39,38 @@ public class MealsRepositoryImpl implements MealsRepository{
     }
 
     @Override
+    public void getMealsByIngredient(String ingredientName, ApiCallback apiCallback) {
+        Map<String, String> qp = new HashMap<>();
+        qp.put("i", ingredientName);
+        remoteDataSource.makeGetRequest(Constants.APIEndpoints.FILTER_MEALS, qp, apiCallback, FilteredMealsResponse.class);
+    }
+
+    @Override
+    public void getMealsByArea(String areaName, ApiCallback apiCallback) {
+        Map<String, String> qp = new HashMap<>();
+        qp.put("a", areaName);
+        remoteDataSource.makeGetRequest(Constants.APIEndpoints.FILTER_MEALS, qp, apiCallback, FilteredMealsResponse.class);
+    }
+
+    @Override
     public void getMealsByName(String name, ApiCallback apiCallback) {
         Map<String, String> qp = new HashMap<>();
         qp.put("s", name);
         remoteDataSource.makeGetRequest(Constants.APIEndpoints.SEARCH_MEAL, qp, apiCallback, MealsResponse.class);
     }
+
+
+
+    public void addMealToSaved(Meal meal){
+        localDataSource.insertSavedMeal(meal);
+    }
+
+    @Override
+    public void getMealById(String mealId, ApiCallback apiCallback) {
+        Map<String, String> qp = new HashMap<>();
+        qp.put("i", mealId);
+        remoteDataSource.makeGetRequest(Constants.APIEndpoints.LOOKUP_MEAL, qp, apiCallback, MealsResponse.class);
+    }
+
 
 }

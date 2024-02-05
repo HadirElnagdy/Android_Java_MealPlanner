@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,9 +21,18 @@ import com.example.mealplanner.database.MealsLocalDataSourceImpl;
 import com.example.mealplanner.main.view.MealInteractionListener;
 import com.example.mealplanner.main.search.presenter.SearchPresenter;
 import com.example.mealplanner.main.search.presenter.SearchPresenterImpl;
+import com.example.mealplanner.models.AreaName;
+import com.example.mealplanner.models.AreaRepositoryImpl;
+import com.example.mealplanner.models.CategoryName;
+import com.example.mealplanner.models.CategoryRepositoryImpl;
+import com.example.mealplanner.models.FilteredMeal;
+import com.example.mealplanner.models.Ingredient;
+import com.example.mealplanner.models.IngredientsRepositoryImpl;
 import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepositoryImpl;
+import com.example.mealplanner.networkLayer.Constants;
 import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
@@ -41,9 +51,13 @@ public class SearchFragment extends Fragment implements SearchView, MealInteract
     RecyclerView recyclerViewSearchResult;
     EditText edtSearch;
     ChipGroup chipGroupCategory, chipGroupIngredient, chipGroupArea;
+    SearchFragmentDirections.ActionSearchFragmentToMealFragment toMealAction;
+    SearchFragmentDirections.ActionSearchFragmentToFilterFragment toFilterAction;
+
     SearchPresenter presenter;
     SearchAdapter adapter;
     Group group;
+    View view;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,20 +67,31 @@ public class SearchFragment extends Fragment implements SearchView, MealInteract
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        view = inflater.inflate(R.layout.fragment_search, container, false);
         intializeComponents(view);
         setupEdtSearch();
         setupRecyclerView();
+        group.setVisibility(Group.VISIBLE);
+        recyclerViewSearchResult.setVisibility(View.INVISIBLE);
         return view;
     }
     private void intializeComponents(View view){
         edtSearch = view.findViewById(R.id.edt_search);
+        edtSearch.setText("");
         recyclerViewSearchResult = view.findViewById(R.id.recycler_view_search);
         chipGroupArea = view.findViewById(R.id.chip_group_area);
         chipGroupCategory = view.findViewById(R.id.chip_group_category);
         chipGroupIngredient = view.findViewById(R.id.chip_group_ingredient);
         group = view.findViewById(R.id.filtering_group);
-        presenter = new SearchPresenterImpl(MealsRepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(), MealsLocalDataSourceImpl.getInstance(getContext())), this);
+        presenter = new SearchPresenterImpl(
+                MealsRepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(), MealsLocalDataSourceImpl.getInstance(getContext()))
+                , CategoryRepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance())
+                , IngredientsRepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance())
+                , AreaRepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance())
+                , this);
+        presenter.getCategoryList();
+        presenter.getIngredientList();
+        presenter.getAreaList();
 
     }
     private void setupEdtSearch(){
@@ -74,10 +99,10 @@ public class SearchFragment extends Fragment implements SearchView, MealInteract
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    group.setVisibility(Group.INVISIBLE);
+                    group.setVisibility(View.INVISIBLE);
                     recyclerViewSearchResult.setVisibility(View.VISIBLE);
                 } else {
-                    group.setVisibility(Group.VISIBLE);
+                    group.setVisibility(View.VISIBLE);
                     recyclerViewSearchResult.setVisibility(View.INVISIBLE);
                 }
             }
@@ -142,9 +167,54 @@ public class SearchFragment extends Fragment implements SearchView, MealInteract
     }
 
     @Override
-    public void showMealDetails(Meal meal) {
+    public void showMealDetails(String mealId) {
+        toMealAction = SearchFragmentDirections.actionSearchFragmentToMealFragment(null, mealId);
+        Navigation.findNavController(view).navigate(toMealAction);
+    }
+    public void showCategoryList(List<CategoryName> categoryNames){
+        for(CategoryName categoryName : categoryNames){
+            Chip chip = new Chip(getContext());
+            chip.setText(categoryName.getStrCategory());
+            chip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toFilterAction = SearchFragmentDirections.actionSearchFragmentToFilterFragment(Constants.Keys.CATEGORY, categoryName.getStrCategory());
+                    Navigation.findNavController(view).navigate(toFilterAction);
+                }
+            });
+            chipGroupCategory.addView(chip);
+        }
 
     }
+    public void showIngredientList(List<Ingredient> ingredients){
+        for(Ingredient ingredient : ingredients){
+            Chip chip = new Chip(getContext());
+            chip.setText(ingredient.getStrIngredient());
+            chip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toFilterAction = SearchFragmentDirections.actionSearchFragmentToFilterFragment(Constants.Keys.INGREDIENT, ingredient.getStrIngredient());
+                    Navigation.findNavController(view).navigate(toFilterAction);
+                }
+            });
+            chipGroupIngredient.addView(chip);
+        }
+    }
+    public void showAreaList(List<AreaName> areaNames){
+        for(AreaName areaName : areaNames){
+            Chip chip = new Chip(getContext());
+            chip.setText(areaName.getStrArea());
+            chip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toFilterAction = SearchFragmentDirections.actionSearchFragmentToFilterFragment(Constants.Keys.AREA, areaName.getStrArea());
+                    Navigation.findNavController(view).navigate(toFilterAction);
+                }
+            });
+            chipGroupArea.addView(chip);
+        }
+    }
+
 
     @Override
     public void showSearchResults(List<Meal> mealList) {
@@ -158,19 +228,6 @@ public class SearchFragment extends Fragment implements SearchView, MealInteract
 
     }
 
-    @Override
-    public void setChipGroupCategory(List<String> categories) {
 
-    }
-
-    @Override
-    public void setChipGroupIngredient(List<String> ingredients) {
-
-    }
-
-    @Override
-    public void setChipGroupArea(List<String> areas) {
-
-    }
 }
 

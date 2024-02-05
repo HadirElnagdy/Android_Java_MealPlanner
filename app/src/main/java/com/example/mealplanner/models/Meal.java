@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -69,7 +68,8 @@ public class Meal implements Parcelable {
     private String strMeasure18;
     private String strMeasure19;
     private String strMeasure20;
-    private String strSource;
+    @SerializedName("strSource")
+    private String planDate;
     private String strImageSource;
 
 
@@ -124,7 +124,7 @@ public class Meal implements Parcelable {
         strMeasure18 = in.readString();
         strMeasure19 = in.readString();
         strMeasure20 = in.readString();
-        strSource = in.readString();
+        planDate = in.readString();
         strImageSource = in.readString();
         userEmail = in.readString();
         dbType = in.readString();
@@ -534,12 +534,12 @@ public class Meal implements Parcelable {
         this.strMeasure20 = strMeasure20;
     }
 
-    public String getStrSource() {
-        return strSource;
+    public String getPlanDate() {
+        return planDate;
     }
 
-    public void setStrSource(String strSource) {
-        this.strSource = strSource;
+    public void setPlanDate(String planDate) {
+        this.planDate = planDate;
     }
 
     public String getStrImageSource() {
@@ -622,7 +622,7 @@ public class Meal implements Parcelable {
         parcel.writeString(strMeasure18);
         parcel.writeString(strMeasure19);
         parcel.writeString(strMeasure20);
-        parcel.writeString(strSource);
+        parcel.writeString(planDate);
         parcel.writeString(strImageSource);
         parcel.writeString(userEmail);
         parcel.writeString(dbType);

@@ -139,12 +139,12 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
         imgRandomMeal = view.findViewById(R.id.img_random_meal);
         cardView = view.findViewById(R.id.cardView);
         imageLoader = new ImageLoader(getContext());
-        action = HomeFragmentDirections.actionHomeFragmentToMealFragment(null);
+        action = HomeFragmentDirections.actionHomeFragmentToMealFragment(null, null);
         btnSaveRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switchBtnImg(btnSaveRandom);
-                //onAddToFavoritesClick(randomMeal.getIdMeal());
+
             }
         });
 
