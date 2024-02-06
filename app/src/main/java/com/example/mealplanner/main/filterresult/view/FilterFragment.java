@@ -1,6 +1,5 @@
 package com.example.mealplanner.main.filterresult.view;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,10 +16,9 @@ import com.example.mealplanner.R;
 import com.example.mealplanner.database.MealsLocalDataSourceImpl;
 import com.example.mealplanner.main.filterresult.presenter.FilterPresenter;
 import com.example.mealplanner.main.filterresult.presenter.FilterPresenterImpl;
+import com.example.mealplanner.main.view.FilteredMealsAdapter;
 import com.example.mealplanner.main.view.MealInteractionListener;
-import com.example.mealplanner.models.CategoryName;
 import com.example.mealplanner.models.FilteredMeal;
-import com.example.mealplanner.models.MealsRepository;
 import com.example.mealplanner.models.MealsRepositoryImpl;
 import com.example.mealplanner.networkLayer.Constants;
 import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;

@@ -144,7 +144,7 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
             @Override
             public void onClick(View view) {
                 switchBtnImg(btnSaveRandom);
-
+                presenter.addMealToSaved(getRandomMeal());
             }
         });
 
@@ -204,5 +204,9 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
             presenter.getRandomMeal();
             presenter.getCategoryList();
         }
+    }
+
+    Meal getRandomMeal(){
+        return randomMeal;
     }
 }

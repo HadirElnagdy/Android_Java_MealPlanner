@@ -6,7 +6,10 @@ import com.example.mealplanner.networkLayer.Constants;
 import com.example.mealplanner.networkLayer.RemoteDataSource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import io.reactivex.rxjava3.core.Observable;
 
 public class MealsRepositoryImpl implements MealsRepository{
 
@@ -66,11 +69,27 @@ public class MealsRepositoryImpl implements MealsRepository{
     }
 
     @Override
+    public Observable<List<Meal>> getSavedMeals() {
+        return localDataSource.getAllSavedMeals();
+    }
+
+    @Override
+    public void deleteSavedMeal(Meal meal) {
+        localDataSource.deleteSavedMeal(meal);
+    }
+
+    @Override
+    public Observable<Boolean> isSaved(String mealId) {
+        return localDataSource.isSaved(mealId);
+    }
+
+    @Override
     public void getMealById(String mealId, ApiCallback apiCallback) {
         Map<String, String> qp = new HashMap<>();
         qp.put("i", mealId);
         remoteDataSource.makeGetRequest(Constants.APIEndpoints.LOOKUP_MEAL, qp, apiCallback, MealsResponse.class);
     }
+
 
 
 }

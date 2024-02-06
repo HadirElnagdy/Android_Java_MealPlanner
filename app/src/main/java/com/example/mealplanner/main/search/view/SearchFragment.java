@@ -21,6 +21,7 @@ import com.example.mealplanner.database.MealsLocalDataSourceImpl;
 import com.example.mealplanner.main.view.MealInteractionListener;
 import com.example.mealplanner.main.search.presenter.SearchPresenter;
 import com.example.mealplanner.main.search.presenter.SearchPresenterImpl;
+import com.example.mealplanner.main.view.MealsAdapter;
 import com.example.mealplanner.models.AreaName;
 import com.example.mealplanner.models.AreaRepositoryImpl;
 import com.example.mealplanner.models.CategoryName;
@@ -55,7 +56,7 @@ public class SearchFragment extends Fragment implements SearchView, MealInteract
     SearchFragmentDirections.ActionSearchFragmentToFilterFragment toFilterAction;
 
     SearchPresenter presenter;
-    SearchAdapter adapter;
+    MealsAdapter adapter;
     Group group;
     View view;
     @Override
@@ -141,7 +142,7 @@ public class SearchFragment extends Fragment implements SearchView, MealInteract
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerViewSearchResult.setLayoutManager(linearLayoutManager);
-        adapter = new SearchAdapter(getContext(), new ArrayList<>(), this);
+        adapter = new MealsAdapter(getContext(), new ArrayList<>(), this);
         recyclerViewSearchResult.setAdapter(adapter);
     }
 

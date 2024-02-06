@@ -1,4 +1,4 @@
-package com.example.mealplanner.main.search.view;
+package com.example.mealplanner.main.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,19 +14,18 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealplanner.R;
-import com.example.mealplanner.main.view.MealInteractionListener;
-import com.example.mealplanner.models.Meal;
+import com.example.mealplanner.models.FilteredMeal;
 import com.example.mealplanner.networkLayer.ImageLoader;
 
 import java.util.List;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder>{
+public class FilteredMealsAdapter extends RecyclerView.Adapter<FilteredMealsAdapter.ViewHolder>{
 
-    private List<Meal> meals;
+    private List<FilteredMeal> meals;
     private final MealInteractionListener listener;
     private final ImageLoader imgLoader;
 
-    public SearchAdapter(Context context, List<Meal> meals, MealInteractionListener listener) {
+    public FilteredMealsAdapter(Context context, List<FilteredMeal> meals, MealInteractionListener listener) {
         this.meals = meals;
         this.listener = listener;
         imgLoader = new ImageLoader(context);
@@ -34,20 +33,20 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     @NonNull
     @Override
-    public SearchAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FilteredMealsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.meals_cell, parent, false);
-        return new SearchAdapter.ViewHolder(view);
+        return new FilteredMealsAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchAdapter.ViewHolder holder, int position) {
-        Meal meal = meals.get(position);
+    public void onBindViewHolder(@NonNull FilteredMealsAdapter.ViewHolder holder, int position) {
+        FilteredMeal meal = meals.get(position);
         holder.txtMealName.setText(meal.getStrMeal());
         imgLoader.loadImage(meal.getStrMealThumb(), holder.imgMeal);
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onOpenMealClick(meal.getIdMeal());
+                listener.onOpenMealClick(meal.getIDMeal());
             }
         });
 
@@ -55,7 +54,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 switchBtnImg(holder.btnSaveMeal);
-                listener.onAddToSaved(meal.getIdMeal());
+                listener.onAddToSaved(meal.getIDMeal());
 
             }
         });
@@ -63,14 +62,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.btnAddToPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onAddToPlanClick(meal.getIdMeal());
+                listener.onAddToPlanClick(meal.getIDMeal());
             }
         });
     }
 
-    public void setList(List<Meal> meals){
+    public void setList(List<FilteredMeal> meals){
         this.meals = meals;
-       // if (meals == null) Log.e("SearchAdapter", "setList: meals is nullllll");
+
     }
 
     @Override

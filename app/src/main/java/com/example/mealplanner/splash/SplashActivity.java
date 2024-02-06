@@ -20,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         mAuth = FirebaseAuth.getInstance();
-        FirebaseAuth.getInstance().signOut(); //remove this lineeeeeeeeeeeee
+//        FirebaseAuth.getInstance().signOut(); //remove this lineeeeeeeeeeeee
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         new Handler().postDelayed(new Runnable() {

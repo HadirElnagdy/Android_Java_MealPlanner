@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealplanner.R;
+import com.example.mealplanner.main.view.FilteredMealsAdapter;
 import com.example.mealplanner.main.view.MealInteractionListener;
 import com.example.mealplanner.models.CategoryName;
 import com.example.mealplanner.models.FilteredMeal;
@@ -47,7 +48,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.txtCategoryName.setText(categoryName);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         holder.recyclerViewMeals.setLayoutManager(layoutManager);
-        CategoryMealsAdapter mealAdapter = new CategoryMealsAdapter(context, meals.get(holder.getAdapterPosition()), listener);
+        FilteredMealsAdapter mealAdapter = new FilteredMealsAdapter(context, meals.get(holder.getAdapterPosition()), listener);
         holder.recyclerViewMeals.setAdapter(mealAdapter);
 
     }

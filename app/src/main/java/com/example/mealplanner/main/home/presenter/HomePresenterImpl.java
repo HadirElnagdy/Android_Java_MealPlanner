@@ -42,7 +42,7 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
 
     @Override
     public void addMealToSaved(Meal meal) {
-
+        mealsRepository.addMealToSaved(meal);
     }
 
     @Override

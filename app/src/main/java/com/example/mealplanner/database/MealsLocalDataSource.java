@@ -10,4 +10,5 @@ public interface MealsLocalDataSource {
     void insertSavedMeal(Meal meal);
     void deleteSavedMeal(Meal meal);
     Observable<List<Meal>> getAllSavedMeals();
+    Observable<Boolean> isSaved(String idMeal);
 }
