@@ -1,0 +1,44 @@
+package com.example.mealplanner.database;
+
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
+
+import com.example.mealplanner.models.Meal;
+
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Observable;
+
+@Dao
+public interface MealsDAO {
+
+    //Saved
+    @Query("SELECT * FROM meals_table WHERE dbType = 'Saved' AND userEmail = :userEmail")
+    Observable<List<Meal>> getAllSavedMeals(String userEmail);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertSavedMeal(Meal Meal);
+
+    @Delete
+    void deleteSavedMeal(Meal meal);
+
+    @Query("SELECT EXISTS(SELECT 1 FROM meals_table WHERE idMeal = :idMeal AND userEmail = :userEmail AND dbType = 'Saved')")
+    Observable<Boolean> isSaved(String idMeal, String userEmail);
+
+    //Plan
+    @Query("SELECT * FROM meals_table WHERE dbType = 'Planed' AND userEmail = :userEmail")
+    Observable<List<Meal>> getAllPlannedMeals(String userEmail);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertPlannedMeal(Meal Meal);
+
+    @Delete
+    void deletePlannedMeal(Meal meal);
+
+
+
+
+}
