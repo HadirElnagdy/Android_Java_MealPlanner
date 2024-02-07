@@ -28,5 +28,11 @@
     <string name="search_by_category">Search by category</string>
     <string name="search_by_ingredients">Search by ingredients</string>
     <string name="save">Save</string>
+    <string name="dont_have_account">Don\'t have account?</string>
+    <string name="create_account">Create account</string>
+    <string name="welcome">Welcome Back</string>
+    <string name="have_account">Already have an account?</string>
+    <string name="login">Login</string>
+    <string name="create_your_account">Create Your Account</string>
 
 </resources>

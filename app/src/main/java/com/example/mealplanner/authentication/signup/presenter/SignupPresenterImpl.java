@@ -24,7 +24,7 @@ public class SignupPresenterImpl implements SignupPresenter, AuthenticationListe
     @Override
     public void onSuccess(FirebaseUser user) {
         Log.i("TAG", "onSuccess: "+user.getDisplayName());
-        view.goToSignIn();
+        view.goToHome();
     }
 
     @Override
