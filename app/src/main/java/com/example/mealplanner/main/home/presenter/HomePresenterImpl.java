@@ -12,12 +12,15 @@ import com.example.mealplanner.models.MealsResponse;
 import com.example.mealplanner.networkLayer.ApiCallback;
 import com.example.mealplanner.networkLayer.Constants;
 
+import io.reactivex.rxjava3.core.Observable;
+
 
 public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
 
     HomeView view;
     CategoryRepository categoryRepository;
     MealsRepository mealsRepository;
+    String savedId;
     String TAG = "HomePresenterImpl";
 
     public HomePresenterImpl(HomeView view, CategoryRepository categoryRepository, MealsRepository mealsRepository) {
@@ -41,23 +44,24 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
     }
 
     @Override
-    public void addMealToSaved(Meal meal) {
-        mealsRepository.addMealToSaved(meal);
+    public void toggleSavedStatus(String mealId, Meal meal) {
+        if(meal != null) mealsRepository.addMealToSaved(meal);
+        else {
+            savedId = mealId;
+            mealsRepository.getMealById(mealId, this);
+        }
+    }
+
+
+
+    @Override
+    public void addMealToPlan(String mealId, Meal meal, int day) {
+
     }
 
     @Override
-    public void deleteMealFromSaved(Meal meal) {
-
-    }
-
-    @Override
-    public void addMealToPlan(Meal meal) {
-
-    }
-
-    @Override
-    public void deleteMealFromPlan(Meal meal) {
-
+    public Observable<Boolean> isSaved(String mealId) {
+        return mealsRepository.isSaved(mealId);
     }
 
 
@@ -66,15 +70,21 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
         switch (endpoint){
             case Constants.APIEndpoints.RANDOM_MEAL:
                 view.showRandomMeal(((MealsResponse)response).getMeals().get(0));
-                Log.i(TAG, "RANDOM_MEAL: "+(((MealsResponse)response).getMeals().get(0)));
                 break;
             case Constants.APIEndpoints.LIST_ALL:
                 view.showMealCategories(((CategoryListResponse)response).getCategoryNames());
-                Log.i(TAG, "LIST_ALL: "+((CategoryListResponse)response).getCategoryNames());
                 break;
             case Constants.APIEndpoints.FILTER_MEALS:
                 view.addToMealsList(((FilteredMealsResponse)response).getMeals());
-                Log.i(TAG, "FILTER_MEALS: " + ((FilteredMealsResponse)response).getMeals());
+                break;
+            case Constants.APIEndpoints.LOOKUP_MEAL:
+                Meal meal = ((MealsResponse)response).getMeals().get(0);
+                if(savedId != null && savedId.equals(meal.getIdMeal())){
+                    mealsRepository.addMealToSaved(meal);
+                    savedId = null;
+                }else{
+                    mealsRepository.addMealToPlan(meal);
+                }
                 break;
         }
 
@@ -87,6 +97,6 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
 
     @Override
     public void onFailure(Throwable throwable) {
-        Log.e(TAG, "onError: \nMessage: " + throwable.getMessage());
+        Log.e(TAG, "onFailure: \nMessage: " + throwable.getMessage());
     }
 }

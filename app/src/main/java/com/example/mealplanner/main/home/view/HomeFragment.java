@@ -1,5 +1,6 @@
 package com.example.mealplanner.main.home.view;
 
+import android.icu.util.Calendar;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +33,17 @@ import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepositoryImpl;
 import com.example.mealplanner.networkLayer.ImageLoader;
 import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;
+import com.example.mealplanner.util.DayPickerDialog;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class HomeFragment extends Fragment implements HomeView, MealInteractionListener {
@@ -41,7 +51,7 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
     RecyclerView recyclerView;
     TextView txtRandomMeal;
     Button btnAddToPlan;
-    ImageButton btnSaveRandom;
+    Button btnSaveRandom;
     ImageView imgRandomMeal;
 
     HomeAdapter adapter;
@@ -52,7 +62,10 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
     HomePresenter presenter;
     CardView cardView;
     Meal randomMeal;
+    Map<String, Boolean> saved;
     HomeFragmentDirections.ActionHomeFragmentToMealFragment action;
+    Calendar calendar = Calendar.getInstance();
+    View view;
 
 
     @Override
@@ -77,28 +90,34 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        this.view = view;
     }
 
     @Override
-    public void onAddToSaved(String id) {
-
+    public void onSaveClicked(String id, Meal meal) {
+        presenter.toggleSavedStatus(id, meal);
     }
 
     @Override
-    public void onAddToPlanClick(String id) {
-
+    public void onAddToPlanClicked(String id, Meal meal) {
+        MaterialDatePicker<Long> dayPickerDialog = DayPickerDialog.showDialog(requireActivity().getSupportFragmentManager());
+        dayPickerDialog.addOnPositiveButtonClickListener(selection -> {
+            calendar.setTimeInMillis(selection);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            Log.i("TAG", "onViewCreated: selected day: " + day);
+            presenter.addMealToPlan(id, meal, day);
+        });
     }
 
     @Override
-    public void onOpenMealClick(String id) {
-
+    public void onOpenMealClicked(String id, Meal meal) {
+        action.setMeal(meal);
+        action.setMealId(id);
+        Navigation.findNavController(view).navigate(action);
     }
 
-    @Override
-    public void onDelFromSaved(String mealId) {
 
-    }
+
 
     public void showRandomMeal(Meal meal){
         randomMeal = meal;
@@ -139,19 +158,20 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
         imgRandomMeal = view.findViewById(R.id.img_random_meal);
         cardView = view.findViewById(R.id.cardView);
         imageLoader = new ImageLoader(getContext());
+        saved = new HashMap<>();
         action = HomeFragmentDirections.actionHomeFragmentToMealFragment(null, null);
         btnSaveRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchBtnImg(btnSaveRandom);
-                presenter.addMealToSaved(getRandomMeal());
+                presenter.toggleSavedStatus(null, getRandomMeal());
             }
         });
 
         btnAddToPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                onAddToPlanClick(randomMeal.getIdMeal());
+                onAddToPlanClicked(null, getRandomMeal());
+
             }
         });
         cardView.setOnClickListener(new View.OnClickListener() {
@@ -162,22 +182,7 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
         });
 
     }
-    private void switchBtnImg(ImageButton btn) {
-        // Get the current image resource ID
-        Integer currentImgResID = (Integer) btn.getTag();
-        // Check if the current image resource ID matches ic_save
-        if (currentImgResID == null || currentImgResID == R.drawable.ic_save) {
-            // Set the image resource ID to ic_saved
-            btn.setImageResource(R.drawable.ic_saved);
-            // Update the tag with the new image resource ID
-            btn.setTag(R.drawable.ic_saved);
-        } else {
-            // Set the image resource ID to ic_save
-            btn.setImageResource(R.drawable.ic_save);
-            // Update the tag with the new image resource ID
-            btn.setTag(R.drawable.ic_save);
-        }
-    }
+
     private void intializeRecyclerView(){
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -205,6 +210,7 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
             presenter.getCategoryList();
         }
     }
+
 
     Meal getRandomMeal(){
         return randomMeal;

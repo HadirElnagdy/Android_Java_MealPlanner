@@ -26,7 +26,6 @@ import com.example.mealplanner.models.AreaName;
 import com.example.mealplanner.models.AreaRepositoryImpl;
 import com.example.mealplanner.models.CategoryName;
 import com.example.mealplanner.models.CategoryRepositoryImpl;
-import com.example.mealplanner.models.FilteredMeal;
 import com.example.mealplanner.models.Ingredient;
 import com.example.mealplanner.models.IngredientsRepositoryImpl;
 import com.example.mealplanner.models.Meal;
@@ -148,24 +147,22 @@ public class SearchFragment extends Fragment implements SearchView, MealInteract
 
 
     @Override
-    public void onAddToSaved(String mealId) {
+    public void onSaveClicked(String mealId, Meal meal) {
         presenter.addToSaved(mealId);
     }
 
     @Override
-    public void onAddToPlanClick(String mealId) {
+    public void onAddToPlanClicked(String mealId, Meal meal) {
 
     }
 
     @Override
-    public void onOpenMealClick(String mealId) {
-
+    public void onOpenMealClicked(String mealId, Meal meal) {
+        SearchFragmentDirections.ActionSearchFragmentToMealFragment action = SearchFragmentDirections.actionSearchFragmentToMealFragment(meal, mealId);
+        Navigation.findNavController(view).navigate(action);
     }
 
-    @Override
-    public void onDelFromSaved(String mealId) {
 
-    }
 
     @Override
     public void showMealDetails(String mealId) {

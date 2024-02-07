@@ -47,7 +47,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                listener.onOpenMealClick(meal.getIdMeal());
+                listener.onOpenMealClicked(null, meal);
             }
         });
 
@@ -55,7 +55,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
             @Override
             public void onClick(View view) {
                 switchBtnImg(holder.btnSaveMeal);
-//                listener.onAddToSaved(meal.getIdMeal());
+                listener.onSaveClicked(null, meal);
 
             }
         });
@@ -63,7 +63,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
         holder.btnAddToPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                listener.onAddToPlanClick(meal.getIdMeal());
+                listener.onRemovePlanClicked(null, meal);
             }
         });
     }
@@ -109,7 +109,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
             layout = itemView.findViewById(R.id.constraing_layout_meals_cell);
             txtMealName = itemView.findViewById(R.id.txt_random_meal);
             imgMeal = itemView.findViewById(R.id.img_random_meal);
-            btnAddToPlan = itemView.findViewById(R.id.btn_add_plan_random);
+            btnAddToPlan = itemView.findViewById(R.id.btn_add_plan);
             btnSaveMeal = itemView.findViewById(R.id.btn_save_random);
         }
 

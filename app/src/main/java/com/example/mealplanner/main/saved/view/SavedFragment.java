@@ -1,10 +1,12 @@
 package com.example.mealplanner.main.saved.view;
 
+import android.icu.util.Calendar;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,10 +22,10 @@ import com.example.mealplanner.main.saved.presenter.SavedPresenterImpl;
 import com.example.mealplanner.main.view.MealInteractionListener;
 import com.example.mealplanner.main.view.MealsAdapter;
 import com.example.mealplanner.models.Meal;
-import com.example.mealplanner.models.MealsRepository;
 import com.example.mealplanner.models.MealsRepositoryImpl;
-import com.example.mealplanner.networkLayer.RemoteDataSource;
 import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;
+import com.example.mealplanner.util.DayPickerDialog;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,9 @@ public class SavedFragment extends Fragment implements MealInteractionListener {
     MealsAdapter mealsAdapter;
     View view;
     SavedPresenter presenter;
+    List<Meal> mealList;
+    Calendar calendar = Calendar.getInstance();
+
 
 
     @Override
@@ -61,6 +66,7 @@ public class SavedFragment extends Fragment implements MealInteractionListener {
         presenter = new SavedPresenterImpl(MealsRepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance()
                 , MealsLocalDataSourceImpl.getInstance(getContext())));
         mealsAdapter = new MealsAdapter(getContext(), new ArrayList<>(), this);
+        mealsAdapter.setTxtBtnSave("Delete");
         setupRecyclerView();
     }
     private void setupRecyclerView(){
@@ -73,32 +79,40 @@ public class SavedFragment extends Fragment implements MealInteractionListener {
         Observable<List<Meal>> meals = presenter.getSavedMeals();
         meals.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(productList -> {
-                            mealsAdapter.setList(productList);
+                .subscribe(mealList -> {
+                            mealsAdapter.setList(mealList);
                             mealsAdapter.notifyDataSetChanged();
+                            this.mealList = mealList;
                         },
                         throwable -> {
                             Log.i("TAG", "showProducts: unable to show products because: "+throwable.getMessage());
                         });
-    }
-
-    @Override
-    public void onAddToSaved(String mealId) {
 
     }
 
     @Override
-    public void onAddToPlanClick(String mealId) {
-
+    public void onSaveClicked(String mealId, Meal meal) {
+        presenter.deleteSavedMeal(meal);
     }
 
     @Override
-    public void onOpenMealClick(String mealId) {
-
+    public void onAddToPlanClicked(String mealId, Meal meal) {
+        MaterialDatePicker<Long> dayPickerDialog = DayPickerDialog.showDialog(requireActivity().getSupportFragmentManager());
+        dayPickerDialog.addOnPositiveButtonClickListener(selection -> {
+            calendar.setTimeInMillis(selection);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            Log.i("TAG", "onViewCreated: selected day: " + day);
+            presenter.addMealToPlan(meal, day);
+        });
     }
 
     @Override
-    public void onDelFromSaved(String mealId) {
-
+    public void onOpenMealClicked(String mealId, Meal meal) {
+        SavedFragmentDirections.ActionSavedFragmentToMealFragment action = SavedFragmentDirections.actionSavedFragmentToMealFragment(meal, mealId);
+        Navigation.findNavController(view).navigate(action);
     }
+
+
+
+
 }

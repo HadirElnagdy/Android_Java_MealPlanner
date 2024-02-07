@@ -2,7 +2,14 @@ package com.example.mealplanner.util;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.view.View;
+
 import androidx.appcompat.app.AlertDialog;
+import androidx.navigation.Navigation;
+
+import com.example.mealplanner.authentication.view.AuthenticationActivity;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class CustomAlertDialog {
 
@@ -59,6 +66,21 @@ public class CustomAlertDialog {
                 .setMessage(message)
                 .setPositiveButton(positiveButtonName, positiveButtonListener)
                 .setNegativeButton(negativeButtonName, negativeButtonListener);
+    }
+
+    public static void showLoginDialog(Context context, View view){
+        new MaterialAlertDialogBuilder(context)
+                .setTitle("Login First")
+                .setMessage("Some features available only when you are logged in, Please login first")
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    Navigation.findNavController(view).navigateUp();
+                })
+                .setPositiveButton("Ok", (dialog, which) -> {
+                    Intent intent = new Intent(context, AuthenticationActivity.class);
+                    context.startActivity(intent);
+                })
+                .setOnDismissListener(dialogInterface -> Navigation.findNavController(view).navigateUp())
+                .show();
     }
 }
 

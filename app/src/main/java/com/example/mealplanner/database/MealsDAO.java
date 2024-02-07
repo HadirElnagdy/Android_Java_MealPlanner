@@ -20,7 +20,7 @@ public interface MealsDAO {
     Observable<List<Meal>> getAllSavedMeals(String userEmail);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertSavedMeal(Meal Meal);
+    void insertSavedMeal(Meal meal);
 
     @Delete
     void deleteSavedMeal(Meal meal);
@@ -29,11 +29,11 @@ public interface MealsDAO {
     Observable<Boolean> isSaved(String idMeal, String userEmail);
 
     //Plan
-    @Query("SELECT * FROM meals_table WHERE dbType = 'Planed' AND userEmail = :userEmail")
+    @Query("SELECT * FROM meals_table WHERE dbType = 'Planned' AND userEmail = :userEmail")
     Observable<List<Meal>> getAllPlannedMeals(String userEmail);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertPlannedMeal(Meal Meal);
+    void insertPlannedMeal(Meal meal);
 
     @Delete
     void deletePlannedMeal(Meal meal);

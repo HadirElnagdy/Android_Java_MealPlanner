@@ -84,6 +84,21 @@ public class MealsRepositoryImpl implements MealsRepository{
     }
 
     @Override
+    public void addMealToPlan(Meal meal) {
+        localDataSource.insertPlannedMeal(meal);
+    }
+
+    @Override
+    public Observable<List<Meal>> getPlannedMeals() {
+        return localDataSource.getAllPlannedMeals();
+    }
+
+    @Override
+    public void deletePlannedMeal(Meal meal) {
+        localDataSource.deletePlannedMeal(meal);
+    }
+
+    @Override
     public void getMealById(String mealId, ApiCallback apiCallback) {
         Map<String, String> qp = new HashMap<>();
         qp.put("i", mealId);

@@ -7,14 +7,12 @@ import com.example.mealplanner.models.UserManager;
 
 import java.util.List;
 
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
 
 public class MealsLocalDataSourceImpl implements MealsLocalDataSource {
 
     private MealsDAO mealsDAO;
-    private Observable<List<Meal>> mealsList;
+    private Observable<List<Meal>> savedMealsList, plannedMealsList;
     private static MealsLocalDataSourceImpl localDataSource = null;
     private UserManager manager;
     String userEmail;
@@ -24,7 +22,8 @@ public class MealsLocalDataSourceImpl implements MealsLocalDataSource {
         mealsDAO = AppDatabase.getInstance(context.getApplicationContext()).getMealDAO();
         if(manager.getUser() != null){
             userEmail = manager.getCurrentUserEmail();
-            mealsList = mealsDAO.getAllSavedMeals(userEmail);
+            savedMealsList = mealsDAO.getAllSavedMeals(userEmail);
+            plannedMealsList = mealsDAO.getAllPlannedMeals(userEmail);
         }
     }
     public static MealsLocalDataSourceImpl getInstance(Context context){
@@ -33,7 +32,6 @@ public class MealsLocalDataSourceImpl implements MealsLocalDataSource {
         }
         return localDataSource;
     }
-
     @Override
     public void insertSavedMeal(Meal meal) {
         meal.setDbType("Saved");
@@ -61,11 +59,42 @@ public class MealsLocalDataSourceImpl implements MealsLocalDataSource {
 
     @Override
     public Observable<List<Meal>> getAllSavedMeals() {
-        return mealsList;
+        return savedMealsList;
     }
 
     @Override
     public Observable<Boolean> isSaved(String idMeal) {
        return mealsDAO.isSaved(idMeal, userEmail);
     }
+
+    @Override
+    public Observable<List<Meal>> getAllPlannedMeals() {
+        return plannedMealsList;
+    }
+
+    @Override
+    public void insertPlannedMeal(Meal meal) {
+        meal.setDbType("Planned");
+        meal.setUserEmail(userEmail);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mealsDAO.insertPlannedMeal(meal);
+            }
+        }).start();
+    }
+
+    @Override
+    public void deletePlannedMeal(Meal meal) {
+        meal.setDbType("Planned");
+        meal.setUserEmail(userEmail);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mealsDAO.deletePlannedMeal(meal);
+            }
+        }).start();
+    }
+
+
 }

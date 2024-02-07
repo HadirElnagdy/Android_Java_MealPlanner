@@ -10,4 +10,6 @@ import io.reactivex.rxjava3.core.Observable;
 public interface SavedPresenter {
     public Observable<List<Meal>> getSavedMeals();
     public void deleteSavedMeal(Meal meal);
+
+    public void addMealToPlan(Meal meal, int day);
 }

@@ -1,14 +1,7 @@
 package com.example.mealplanner.main.meal.view;
 
-import static java.util.Arrays.stream;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +10,19 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.mealplanner.R;
-import com.example.mealplanner.main.home.view.HomeAdapter;
+import com.example.mealplanner.database.MealsLocalDataSourceImpl;
+import com.example.mealplanner.main.meal.presenter.MealPresenter;
+import com.example.mealplanner.main.meal.presenter.MealPresenterImpl;
 import com.example.mealplanner.models.Meal;
+import com.example.mealplanner.models.MealsRepositoryImpl;
 import com.example.mealplanner.networkLayer.ImageLoader;
+import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
@@ -29,12 +31,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class MealFragment extends Fragment {
+
+public class MealFragment extends Fragment implements MealView{
 
     ImageView imgMeal;
     TextView txtName;
-    ImageButton btnSaveMeal;
+    Button btnSaveMeal;
     Button btnAddToPlan;
     RecyclerView recyclerViewIngredients;
     TextView txtInstructions;
@@ -43,7 +50,9 @@ public class MealFragment extends Fragment {
     ImageLoader imageLoader;
 
     Meal meal;
+    String mealId;
     IngredientsAdapter adapter;
+    MealPresenter presenter;
 
     public MealFragment() {
         // Required empty public constructor
@@ -68,7 +77,6 @@ public class MealFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meal, container, false);
         initializeComponents(view);
-        setupView();
         return view;
     }
 
@@ -80,10 +88,19 @@ public class MealFragment extends Fragment {
         recyclerViewIngredients = view.findViewById(R.id.recycler_view_ingredients);
         txtInstructions = view.findViewById(R.id.txt_instructions);
         youtubePlayerView = view.findViewById(R.id.ytPlayer);
-        meal = MealFragmentArgs.fromBundle(getArguments()).getMeal();
         imageLoader = new ImageLoader(getContext());
-        adapter = new IngredientsAdapter(getContext() , getIngredients(), getMeasures());
+        presenter = new MealPresenterImpl(MealsRepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(),
+                MealsLocalDataSourceImpl.getInstance(getContext())), this);
+        if(MealFragmentArgs.fromBundle(getArguments()).getMeal() != null) {
+            meal = MealFragmentArgs.fromBundle(getArguments()).getMeal();
+            setupView();
+        }else {
+            mealId = MealFragmentArgs.fromBundle(getArguments()).getMealId();
+            presenter.getMealById(mealId);
+        }
+
     }
+
 
     private List<String> getMeasures() {
         List<String> measures = new ArrayList<>();
@@ -146,18 +163,14 @@ public class MealFragment extends Fragment {
     private void setupView(){
         imageLoader.loadImage(meal.getStrMealThumb(), imgMeal);
         txtName.setText(meal.getStrMeal());
+        adapter = new IngredientsAdapter(getContext() , getIngredients(), getMeasures());
         btnAddToPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                presenter.addMealToPlan(meal);
             }
         });
-        btnSaveMeal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        setupSaveBtn();
         setupRecyclerView();
         setupTxtInstructions();
         getLifecycle().addObserver(youtubePlayerView);
@@ -170,6 +183,37 @@ public class MealFragment extends Fragment {
         });
 
     }
+    private void setupSaveBtn(){
+
+        Observable<Boolean> booleanObservable = presenter.isSaved(meal);
+        booleanObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(isSaved -> {
+                            Log.i("TAG", "setupSaveBtn: first");
+                        },
+                        throwable -> {
+                            Log.i("TAG", throwable.getMessage());
+                        });
+        btnSaveMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Observable<Boolean> booleanObservable = presenter.isSaved(meal);
+                Disposable disposable = booleanObservable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(isSaved -> {
+                                    if(isSaved)
+                                        presenter.deleteMealFromSaved(meal);
+                                    else
+                                        presenter.addMealToSaved(meal);
+                                    Log.i("TAG", "onClick: change the image here!");
+                                },
+                                throwable -> {
+                                    Log.i("TAG", throwable.getMessage());
+                                });
+                disposable.dispose();
+            }
+        });
+    }
     private void setupRecyclerView(){
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
@@ -179,9 +223,12 @@ public class MealFragment extends Fragment {
     private void setupTxtInstructions(){
         String []instructions = meal.getStrInstructions().split("\\.");
         for(int i = 1 ; i<= instructions.length ; i++){
-            txtInstructions.append("Step "+i+"\n"+instructions[i-1]+".\n");
-            txtInstructions.append("\n----------------------------------\n\n");
+            txtInstructions.append("\n"+instructions[i-1]+".\n");
         }
     }
-
+    @Override
+    public void setMeal(Meal meal) {
+        this.meal = meal;
+        setupView();
+    }
 }

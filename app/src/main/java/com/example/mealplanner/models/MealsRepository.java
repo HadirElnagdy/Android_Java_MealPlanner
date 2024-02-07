@@ -17,10 +17,18 @@ public interface MealsRepository {
     public void getMealById(String mealId, ApiCallback apiCallback);
 
     //Local
+    //Saved
     public void addMealToSaved(Meal meal);
     public Observable<List<Meal>> getSavedMeals();
 
     public void deleteSavedMeal(Meal meal);
     public Observable<Boolean> isSaved(String mealId);
+
+    //Plan
+    public void addMealToPlan(Meal meal);
+    public Observable<List<Meal>> getPlannedMeals();
+
+    public void deletePlannedMeal(Meal meal);
+
 
 }

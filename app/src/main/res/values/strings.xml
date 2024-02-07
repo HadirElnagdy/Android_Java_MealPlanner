@@ -27,5 +27,6 @@
     <string name="search_by_area">Search by area</string>
     <string name="search_by_category">Search by category</string>
     <string name="search_by_ingredients">Search by ingredients</string>
+    <string name="save">Save</string>
 
 </resources>

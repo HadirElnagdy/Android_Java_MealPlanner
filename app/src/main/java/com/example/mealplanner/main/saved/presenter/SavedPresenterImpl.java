@@ -26,5 +26,11 @@ public class SavedPresenterImpl implements SavedPresenter{
         repo.deleteSavedMeal(meal);
     }
 
+    @Override
+    public void addMealToPlan(Meal meal, int day) {
+        meal.setPlanDate(String.valueOf(day));
+        repo.addMealToPlan(meal);
+    }
+
 
 }
