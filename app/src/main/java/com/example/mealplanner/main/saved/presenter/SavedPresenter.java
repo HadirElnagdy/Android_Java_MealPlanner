@@ -1,6 +1,8 @@
 package com.example.mealplanner.main.saved.presenter;
 
 
+import android.content.Context;
+
 import com.example.mealplanner.models.Meal;
 
 import java.util.List;
@@ -12,4 +14,5 @@ public interface SavedPresenter {
     public void deleteSavedMeal(Meal meal);
 
     public void addMealToPlan(Meal meal, int day);
+    public void updateUserEmail(Context context);
 }

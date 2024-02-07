@@ -2,6 +2,7 @@ package com.example.mealplanner.main.view;
 
 import android.content.Context;
 import android.telephony.BarringInfo;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,7 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder>{
         holder.txtMealName.setText(meal.getStrMeal());
         holder.btnSaveMeal.setText(txtBtnSave);
         imgLoader.loadImage(meal.getStrMealThumb(), holder.imgMeal);
-
+        Log.i("MealsAdapter", "Meal: dpType is " + meal.getDbType() + "Email is " + meal.getUserEmail());
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

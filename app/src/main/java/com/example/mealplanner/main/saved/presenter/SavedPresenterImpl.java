@@ -1,8 +1,12 @@
 package com.example.mealplanner.main.saved.presenter;
 
 
+import android.content.Context;
+
+import com.example.mealplanner.database.MealsLocalDataSourceImpl;
 import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepository;
+import com.example.mealplanner.models.UserManager;
 
 import java.util.List;
 
@@ -12,10 +16,16 @@ public class SavedPresenterImpl implements SavedPresenter{
 
     MealsRepository repo;
 
+    UserManager manager = new UserManager();
+
     public SavedPresenterImpl(MealsRepository repo) {
         this.repo = repo;
     }
 
+    public void updateUserEmail(Context context){
+        MealsLocalDataSourceImpl.getInstance(context).updateUserEmail(manager.getCurrentUserEmail());
+        repo.setLocalDataSource(MealsLocalDataSourceImpl.getInstance(context));
+    }
     @Override
     public Observable<List<Meal>> getSavedMeals() {
         return repo.getSavedMeals();

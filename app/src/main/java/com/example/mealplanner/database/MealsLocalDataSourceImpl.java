@@ -32,6 +32,11 @@ public class MealsLocalDataSourceImpl implements MealsLocalDataSource {
         }
         return localDataSource;
     }
+    public void updateUserEmail(String userEmail){
+        this.userEmail = userEmail;
+        savedMealsList = mealsDAO.getAllSavedMeals(userEmail);
+        plannedMealsList = mealsDAO.getAllPlannedMeals(userEmail);
+    }
     @Override
     public void insertSavedMeal(Meal meal) {
         meal.setDbType("Saved");

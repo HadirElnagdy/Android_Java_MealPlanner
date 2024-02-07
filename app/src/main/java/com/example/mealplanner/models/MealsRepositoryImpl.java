@@ -28,6 +28,9 @@ public class MealsRepositoryImpl implements MealsRepository{
         }
         return repo;
     }
+    public void setLocalDataSource(MealsLocalDataSource localDataSource){
+        this.localDataSource = localDataSource;
+    }
 
     @Override
     public void getRandomMeal(ApiCallback apiCallback) {

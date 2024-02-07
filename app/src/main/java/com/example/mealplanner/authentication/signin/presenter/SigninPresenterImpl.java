@@ -1,6 +1,7 @@
 package com.example.mealplanner.authentication.signin.presenter;
 
 import com.example.mealplanner.authentication.signin.view.SigninView;
+import com.example.mealplanner.database.MealsLocalDataSourceImpl;
 import com.example.mealplanner.models.UserManager;
 import com.example.mealplanner.networkLayer.AuthenticationListener;
 import com.google.firebase.auth.FirebaseUser;

@@ -23,6 +23,7 @@ import com.example.mealplanner.main.view.MealInteractionListener;
 import com.example.mealplanner.main.view.MealsAdapter;
 import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepositoryImpl;
+import com.example.mealplanner.models.UserManager;
 import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;
 import com.example.mealplanner.util.DayPickerDialog;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -65,6 +66,7 @@ public class SavedFragment extends Fragment implements MealInteractionListener {
         this.view = view;
         presenter = new SavedPresenterImpl(MealsRepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance()
                 , MealsLocalDataSourceImpl.getInstance(getContext())));
+        presenter.updateUserEmail(getContext());
         mealsAdapter = new MealsAdapter(getContext(), new ArrayList<>(), this);
         mealsAdapter.setTxtBtnSave("Delete");
         setupRecyclerView();
@@ -85,7 +87,7 @@ public class SavedFragment extends Fragment implements MealInteractionListener {
                             this.mealList = mealList;
                         },
                         throwable -> {
-                            Log.i("TAG", "showProducts: unable to show products because: "+throwable.getMessage());
+
                         });
 
     }

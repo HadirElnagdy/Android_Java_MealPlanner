@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.example.mealplanner.R;
 import com.example.mealplanner.authentication.view.AuthenticationActivity;
+import com.example.mealplanner.database.MealsLocalDataSourceImpl;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
