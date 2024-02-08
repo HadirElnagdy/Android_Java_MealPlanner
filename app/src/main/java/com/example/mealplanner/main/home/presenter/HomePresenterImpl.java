@@ -21,6 +21,7 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
     CategoryRepository categoryRepository;
     MealsRepository mealsRepository;
     String savedId;
+    String date;
     String TAG = "HomePresenterImpl";
 
     public HomePresenterImpl(HomeView view, CategoryRepository categoryRepository, MealsRepository mealsRepository) {
@@ -55,7 +56,14 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
 
 
     @Override
-    public void addMealToPlan(String mealId, Meal meal, int day) {
+    public void addMealToPlan(String mealId, Meal meal, int date) {
+        this.date = String.valueOf(date);
+       if(mealId == null){
+           meal.setPlanDate(this.date);
+           mealsRepository.addMealToPlan(meal);
+       }else{
+           mealsRepository.getMealById(mealId, this);
+       }
 
     }
 
@@ -83,6 +91,7 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
                     mealsRepository.addMealToSaved(meal);
                     savedId = null;
                 }else{
+                    meal.setPlanDate(date);
                     mealsRepository.addMealToPlan(meal);
                 }
                 break;

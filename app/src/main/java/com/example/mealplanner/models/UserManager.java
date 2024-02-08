@@ -1,11 +1,14 @@
 package com.example.mealplanner.models;
 
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.example.mealplanner.networkLayer.AuthenticationListener;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -87,6 +90,9 @@ public class UserManager {
     }
     public FirebaseUser getUser(){
         return mAuth.getCurrentUser();
+    }
+    public void signUpWithGoogle(AuthenticationListener listener){
+
     }
 
     public void signOut() {

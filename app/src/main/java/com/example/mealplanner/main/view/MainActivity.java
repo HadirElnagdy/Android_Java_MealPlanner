@@ -1,22 +1,20 @@
 package com.example.mealplanner.main.view;
 
-import androidx.annotation.NonNull;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-
 import com.example.mealplanner.R;
 import com.example.mealplanner.authentication.view.AuthenticationActivity;
-import com.example.mealplanner.database.MealsLocalDataSourceImpl;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,7 +37,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
     }
+
+
+
 
 }

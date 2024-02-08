@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.mealplanner.R;
+import com.example.mealplanner.authentication.onboarding.presenter.OnboardingPresenter;
+import com.example.mealplanner.authentication.onboarding.presenter.OnboardingPresenterImpl;
 import com.example.mealplanner.main.view.MainActivity;
 
 public class OnboardingFragment extends Fragment implements OnboardingView{
@@ -23,6 +25,7 @@ public class OnboardingFragment extends Fragment implements OnboardingView{
 
     TextView txtSignInMail;
     TextView txtSkip;
+    OnboardingPresenter presenter;
 
     public OnboardingFragment() {
 
@@ -45,10 +48,18 @@ public class OnboardingFragment extends Fragment implements OnboardingView{
         btnMicrosoft = view.findViewById(R.id.btn_microsoft);
         txtSignInMail = view.findViewById(R.id.txt_login);
         txtSkip = view.findViewById(R.id.txt_skip);
+        presenter = new OnboardingPresenterImpl();
         btnSignUpMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.action_onboardingFragment_to_signupFragment);
+            }
+        });
+
+        btnGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.signUpWithGoogle();
             }
         });
 
@@ -74,7 +85,8 @@ public class OnboardingFragment extends Fragment implements OnboardingView{
 
     @Override
     public void goToHome() {
-
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
     }
 
     @Override

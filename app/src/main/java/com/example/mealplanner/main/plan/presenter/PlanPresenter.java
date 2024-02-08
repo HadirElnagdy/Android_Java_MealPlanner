@@ -1,13 +1,14 @@
 package com.example.mealplanner.main.plan.presenter;
 
+import com.example.mealplanner.models.Meal;
 import com.google.firebase.auth.FirebaseUser;
 
 public interface PlanPresenter {
-    void getPlanWithId(String dayID);
+    public void getPlanByDate(String planDate);
 
-    void getAllPlans();
+    public void getAllPlans();
 
-    void removePlan(String dayID, String mealID);
+    public void deletePlannedMeal(Meal meal);
+    public void addToSaved(Meal meal);
 
-    FirebaseUser getCurrentUser();
 }

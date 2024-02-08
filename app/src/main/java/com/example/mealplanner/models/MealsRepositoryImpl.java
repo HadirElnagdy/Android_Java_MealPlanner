@@ -97,6 +97,11 @@ public class MealsRepositoryImpl implements MealsRepository{
     }
 
     @Override
+    public Observable<List<Meal>> getPlanByDate(String date) {
+        return localDataSource.getPlanByDate(date);
+    }
+
+    @Override
     public void deletePlannedMeal(Meal meal) {
         localDataSource.deletePlannedMeal(meal);
     }
@@ -107,6 +112,7 @@ public class MealsRepositoryImpl implements MealsRepository{
         qp.put("i", mealId);
         remoteDataSource.makeGetRequest(Constants.APIEndpoints.LOOKUP_MEAL, qp, apiCallback, MealsResponse.class);
     }
+
 
 
 

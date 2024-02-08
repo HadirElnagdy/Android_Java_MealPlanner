@@ -29,6 +29,7 @@ public interface MealsRepository {
     //Plan
     public void addMealToPlan(Meal meal);
     public Observable<List<Meal>> getPlannedMeals();
+    public Observable<List<Meal>> getPlanByDate(String date);
 
     public void deletePlannedMeal(Meal meal);
 

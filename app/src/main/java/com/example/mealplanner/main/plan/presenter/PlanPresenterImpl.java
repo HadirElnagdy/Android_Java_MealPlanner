@@ -1,6 +1,7 @@
 package com.example.mealplanner.main.plan.presenter;
 
 import com.example.mealplanner.main.plan.view.PlanView;
+import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepository;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -22,22 +23,24 @@ public class PlanPresenterImpl implements PlanPresenter{
     }
 
     @Override
-    public void getPlanWithId(String dayID) {
-
+    public void getPlanByDate(String planDate) {
+        repository.getPlanByDate(planDate);
     }
 
     @Override
     public void getAllPlans() {
-
+        repository.getPlannedMeals();
     }
 
     @Override
-    public void removePlan(String dayID, String mealID) {
-
+    public void deletePlannedMeal(Meal meal) {
+        repository.deletePlannedMeal(meal);
     }
 
     @Override
-    public FirebaseUser getCurrentUser() {
-        return null;
+    public void addToSaved(Meal meal) {
+        repository.addMealToSaved(meal);
     }
+
+
 }

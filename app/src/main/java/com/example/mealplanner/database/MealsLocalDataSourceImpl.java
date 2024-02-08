@@ -78,6 +78,11 @@ public class MealsLocalDataSourceImpl implements MealsLocalDataSource {
     }
 
     @Override
+    public Observable<List<Meal>> getPlanByDate(String planDate) {
+        return mealsDAO.getPlanByDate(userEmail, planDate);
+    }
+
+    @Override
     public void insertPlannedMeal(Meal meal) {
         meal.setDbType("Planned");
         meal.setUserEmail(userEmail);

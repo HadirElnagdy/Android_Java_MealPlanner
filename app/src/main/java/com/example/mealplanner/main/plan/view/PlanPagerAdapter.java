@@ -48,7 +48,6 @@ public class PlanPagerAdapter extends RecyclerView.Adapter<PlanPagerAdapter.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             recyclerViewPlan = itemView.findViewById(R.id.recycler_view_plan);
         }
     }

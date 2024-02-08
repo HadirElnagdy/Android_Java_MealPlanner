@@ -54,7 +54,6 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
         holder.btnSaveMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchBtnImg(holder.btnSaveMeal);
                 listener.onSaveClicked(null, meal);
 
             }
@@ -63,7 +62,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
         holder.btnAddToPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onRemovePlanClicked(null, meal);
+                listener.onDeletePlanClicked(null, meal);
             }
         });
     }
@@ -80,18 +79,17 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
         return meals.size();
     }
 
-    private void switchBtnImg(ImageButton btn) {
-        Integer currentImgResID = (Integer) btn.getTag();
-        if (currentImgResID == null || currentImgResID == R.drawable.ic_save) {
-
-            btn.setImageResource(R.drawable.ic_saved);
-
-            btn.setTag(R.drawable.ic_saved);
-        } else {
-
-            btn.setImageResource(R.drawable.ic_save);
-
-            btn.setTag(R.drawable.ic_save);
+    public void addToList(Meal meal) {
+        boolean exist = false;
+        for (Meal m : meals) {
+            if (m.getIdMeal().equals(meal.getIdMeal())) {
+                exist = true;
+                break;
+            }
+        }
+        if (!exist) {
+            meals.add(meal);
+            notifyDataSetChanged();
         }
     }
 
@@ -101,7 +99,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
         ImageView imgMeal;
         TextView txtMealName;
         Button btnAddToPlan;
-        ImageButton btnSaveMeal;
+        Button btnSaveMeal;
 
 
         public ViewHolder(@NonNull View itemView) {

@@ -31,6 +31,9 @@ public interface MealsDAO {
     //Plan
     @Query("SELECT * FROM meals_table WHERE dbType = 'Planned' AND userEmail = :userEmail")
     Observable<List<Meal>> getAllPlannedMeals(String userEmail);
+    @Query("SELECT * FROM meals_table WHERE dbType = 'Planned' AND userEmail = :userEmail AND planDate = :planDate")
+    Observable<List<Meal>> getPlanByDate(String userEmail, String planDate);
+
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertPlannedMeal(Meal meal);

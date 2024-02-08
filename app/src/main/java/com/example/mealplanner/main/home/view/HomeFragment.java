@@ -1,6 +1,10 @@
 package com.example.mealplanner.main.home.view;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.icu.util.Calendar;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -103,9 +107,9 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
         MaterialDatePicker<Long> dayPickerDialog = DayPickerDialog.showDialog(requireActivity().getSupportFragmentManager());
         dayPickerDialog.addOnPositiveButtonClickListener(selection -> {
             calendar.setTimeInMillis(selection);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            Log.i("TAG", "onViewCreated: selected day: " + day);
-            presenter.addMealToPlan(id, meal, day);
+            int date = calendar.get(Calendar.DAY_OF_MONTH);
+            Log.i("TAG", "onViewCreated: selected date: " + date);
+            presenter.addMealToPlan(id, meal, date);
         });
     }
 
@@ -171,7 +175,6 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
             @Override
             public void onClick(View view) {
                 onAddToPlanClicked(null, getRandomMeal());
-
             }
         });
         cardView.setOnClickListener(new View.OnClickListener() {
@@ -214,5 +217,10 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
 
     Meal getRandomMeal(){
         return randomMeal;
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(getContext(), ConnectivityManager.class);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

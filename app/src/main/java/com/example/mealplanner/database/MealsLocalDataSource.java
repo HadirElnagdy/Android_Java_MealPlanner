@@ -17,6 +17,7 @@ public interface MealsLocalDataSource {
     Observable<Boolean> isSaved(String idMeal);
 
     Observable<List<Meal>> getAllPlannedMeals();
+    Observable<List<Meal>> getPlanByDate(String planDate);
     void insertPlannedMeal(Meal meal);
 
     void deletePlannedMeal(Meal meal);

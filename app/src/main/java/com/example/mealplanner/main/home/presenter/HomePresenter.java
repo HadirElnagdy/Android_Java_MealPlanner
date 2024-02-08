@@ -10,7 +10,7 @@ public interface HomePresenter {
     public void getMealsByCategory(String categoryName);
     public void getRandomMeal();
     public void toggleSavedStatus(String mealId, Meal meal);
-    public void addMealToPlan(String mealId, Meal meal, int day);
+    public void addMealToPlan(String mealId, Meal meal, int date);
     public Observable<Boolean> isSaved(String mealId);
 
 
