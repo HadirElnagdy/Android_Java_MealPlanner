@@ -1,5 +1,6 @@
 package com.example.mealplanner.main.filterresult.view;
 
+import android.icu.util.Calendar;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,8 @@ import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepositoryImpl;
 import com.example.mealplanner.networkLayer.Constants;
 import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;
+import com.example.mealplanner.util.DayPickerDialog;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,12 +81,18 @@ public class FilterFragment extends Fragment implements FilterView, MealInteract
 
     @Override
     public void onSaveClicked(String mealId, Meal meal) {
-
+        presenter.addToSaved(mealId);
     }
 
     @Override
     public void onAddToPlanClicked(String mealId, Meal meal) {
-
+        Calendar calendar = Calendar.getInstance();
+        MaterialDatePicker<Long> dayPickerDialog = DayPickerDialog.showDialog(requireActivity().getSupportFragmentManager());
+        dayPickerDialog.addOnPositiveButtonClickListener(selection -> {
+            calendar.setTimeInMillis(selection);
+            int date = calendar.get(Calendar.DAY_OF_MONTH);
+            presenter.addToPlan(mealId, date);
+        });
     }
 
     @Override

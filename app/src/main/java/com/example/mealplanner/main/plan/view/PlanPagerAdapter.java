@@ -1,27 +1,36 @@
 package com.example.mealplanner.main.plan.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealplanner.R;
+import com.example.mealplanner.models.Meal;
 
 import java.util.List;
+import java.util.Map;
 
 public class PlanPagerAdapter extends RecyclerView.Adapter<PlanPagerAdapter.ViewHolder> {
-    private List<PlanAdapter> adapterList;
+    Map<Integer, List<Meal>> mealsList;
     private Context context;
     private PlanListener planListener;
+    private PlanClickListener planClickListener;
 
-    public PlanPagerAdapter(Context context, List<PlanAdapter> adapterList, PlanListener planListener) {
+    public PlanPagerAdapter(Context context, Map<Integer, List<Meal>> mealsList, PlanListener planListener, PlanClickListener planClickListener) {
         this.context = context;
-        this.adapterList = adapterList;
+        this.mealsList = mealsList;
         this.planListener = planListener;
+        this.planClickListener = planClickListener;
+    }
+
+    public void updateMealList(Map<Integer, List<Meal>> mealsList){
+        this.mealsList = mealsList;
     }
 
     @NonNull
@@ -32,15 +41,16 @@ public class PlanPagerAdapter extends RecyclerView.Adapter<PlanPagerAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2);
-        holder.recyclerViewPlan.setLayoutManager(gridLayoutManager);
-        holder.recyclerViewPlan.setAdapter(adapterList.get(position));
-        //Log.i(TAG, "onBindViewHolder: adapter list size: " + adapterList.get(position).getItemCount());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        holder.recyclerViewPlan.setLayoutManager(linearLayoutManager);
+        holder.recyclerViewPlan.setAdapter(new PlanAdapter(context, mealsList.get(position), planClickListener));
     }
 
     @Override
     public int getItemCount() {
-        return adapterList.size();
+        Log.i("PlanPagerAdapter", "getItemCount: "+mealsList.size());
+        return mealsList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

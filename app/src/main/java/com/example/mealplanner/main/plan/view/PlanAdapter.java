@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -59,7 +58,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
             }
         });
 
-        holder.btnAddToPlan.setOnClickListener(new View.OnClickListener() {
+        holder.btnDeleteFromPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.onDeletePlanClicked(null, meal);
@@ -98,7 +97,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
         ConstraintLayout layout;
         ImageView imgMeal;
         TextView txtMealName;
-        Button btnAddToPlan;
+        Button btnDeleteFromPlan;
         Button btnSaveMeal;
 
 
@@ -107,8 +106,9 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
             layout = itemView.findViewById(R.id.constraing_layout_meals_cell);
             txtMealName = itemView.findViewById(R.id.txt_random_meal);
             imgMeal = itemView.findViewById(R.id.img_random_meal);
-            btnAddToPlan = itemView.findViewById(R.id.btn_add_plan);
+            btnDeleteFromPlan = itemView.findViewById(R.id.btn_add_plan);
             btnSaveMeal = itemView.findViewById(R.id.btn_save_random);
+            btnDeleteFromPlan.setText("Delete Meal");
         }
 
         public ConstraintLayout getLayout() {

@@ -1,5 +1,6 @@
 package com.example.mealplanner.main.search.view;
 
+import android.icu.util.Calendar;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.Group;
@@ -32,8 +33,10 @@ import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepositoryImpl;
 import com.example.mealplanner.networkLayer.Constants;
 import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;
+import com.example.mealplanner.util.DayPickerDialog;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +64,6 @@ public class SearchFragment extends Fragment implements SearchView, MealInteract
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("TAG", "onCreate: i'm search");
     }
 
     @Override
@@ -153,7 +155,13 @@ public class SearchFragment extends Fragment implements SearchView, MealInteract
 
     @Override
     public void onAddToPlanClicked(String mealId, Meal meal) {
-
+        Calendar calendar = Calendar.getInstance();
+        MaterialDatePicker<Long> dayPickerDialog = DayPickerDialog.showDialog(requireActivity().getSupportFragmentManager());
+        dayPickerDialog.addOnPositiveButtonClickListener(selection -> {
+            calendar.setTimeInMillis(selection);
+            int date = calendar.get(Calendar.DAY_OF_MONTH);
+            presenter.addToPlan(mealId, date);
+        });
     }
 
     @Override

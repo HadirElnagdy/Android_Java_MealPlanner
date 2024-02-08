@@ -46,7 +46,7 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
 
     @Override
     public void toggleSavedStatus(String mealId, Meal meal) {
-        if(meal != null) mealsRepository.addMealToSaved(meal);
+        if (meal != null) mealsRepository.addMealToSaved(meal);
         else {
             savedId = mealId;
             mealsRepository.getMealById(mealId, this);
@@ -54,43 +54,41 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
     }
 
 
-
     @Override
     public void addMealToPlan(String mealId, Meal meal, int date) {
-        this.date = String.valueOf(date);
-       if(mealId == null){
-           meal.setPlanDate(this.date);
-           mealsRepository.addMealToPlan(meal);
-       }else{
-           mealsRepository.getMealById(mealId, this);
-       }
+        if (date < 10)
+            this.date = "0" + String.valueOf(date);
+        else
+            this.date = String.valueOf(date);
 
-    }
+        if (mealId == null) {
+            meal.setPlanDate(this.date);
+            mealsRepository.addMealToPlan(meal);
+        } else {
+            mealsRepository.getMealById(mealId, this);
+        }
 
-    @Override
-    public Observable<Boolean> isSaved(String mealId) {
-        return mealsRepository.isSaved(mealId);
     }
 
 
     @Override
     public void onSuccess(Object response, String endpoint) {
-        switch (endpoint){
+        switch (endpoint) {
             case Constants.APIEndpoints.RANDOM_MEAL:
-                view.showRandomMeal(((MealsResponse)response).getMeals().get(0));
+                view.showRandomMeal(((MealsResponse) response).getMeals().get(0));
                 break;
             case Constants.APIEndpoints.LIST_ALL:
-                view.showMealCategories(((CategoryListResponse)response).getCategoryNames());
+                view.showMealCategories(((CategoryListResponse) response).getCategoryNames());
                 break;
             case Constants.APIEndpoints.FILTER_MEALS:
-                view.addToMealsList(((FilteredMealsResponse)response).getMeals());
+                view.addToMealsList(((FilteredMealsResponse) response).getMeals());
                 break;
             case Constants.APIEndpoints.LOOKUP_MEAL:
-                Meal meal = ((MealsResponse)response).getMeals().get(0);
-                if(savedId != null && savedId.equals(meal.getIdMeal())){
+                Meal meal = ((MealsResponse) response).getMeals().get(0);
+                if (savedId != null && savedId.equals(meal.getIdMeal())) {
                     mealsRepository.addMealToSaved(meal);
                     savedId = null;
-                }else{
+                } else {
                     meal.setPlanDate(date);
                     mealsRepository.addMealToPlan(meal);
                 }

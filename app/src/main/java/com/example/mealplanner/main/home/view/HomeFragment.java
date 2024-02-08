@@ -108,7 +108,6 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
         dayPickerDialog.addOnPositiveButtonClickListener(selection -> {
             calendar.setTimeInMillis(selection);
             int date = calendar.get(Calendar.DAY_OF_MONTH);
-            Log.i("TAG", "onViewCreated: selected date: " + date);
             presenter.addMealToPlan(id, meal, date);
         });
     }

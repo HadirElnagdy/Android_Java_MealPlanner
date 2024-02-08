@@ -1,12 +1,12 @@
 package com.example.mealplanner.main.meal.view;
 
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +23,8 @@ import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepositoryImpl;
 import com.example.mealplanner.networkLayer.ImageLoader;
 import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;
+import com.example.mealplanner.util.DayPickerDialog;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
@@ -167,7 +169,14 @@ public class MealFragment extends Fragment implements MealView{
         btnAddToPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.addMealToPlan(meal);
+                Calendar calendar = Calendar.getInstance();
+                MaterialDatePicker<Long> dayPickerDialog = DayPickerDialog.showDialog(requireActivity().getSupportFragmentManager());
+                dayPickerDialog.addOnPositiveButtonClickListener(selection -> {
+                    calendar.setTimeInMillis(selection);
+                    int date = calendar.get(Calendar.DAY_OF_MONTH);
+                    presenter.addMealToPlan(meal, date);
+                });
+
             }
         });
         setupSaveBtn();
@@ -184,33 +193,10 @@ public class MealFragment extends Fragment implements MealView{
 
     }
     private void setupSaveBtn(){
-
-        Observable<Boolean> booleanObservable = presenter.isSaved(meal);
-        booleanObservable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(isSaved -> {
-                            Log.i("TAG", "setupSaveBtn: first");
-                        },
-                        throwable -> {
-                            Log.i("TAG", throwable.getMessage());
-                        });
         btnSaveMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Observable<Boolean> booleanObservable = presenter.isSaved(meal);
-                Disposable disposable = booleanObservable.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(isSaved -> {
-                                    if(isSaved)
-                                        presenter.deleteMealFromSaved(meal);
-                                    else
-                                        presenter.addMealToSaved(meal);
-                                    Log.i("TAG", "onClick: change the image here!");
-                                },
-                                throwable -> {
-                                    Log.i("TAG", throwable.getMessage());
-                                });
-                disposable.dispose();
+                presenter.addMealToSaved(meal);
             }
         });
     }

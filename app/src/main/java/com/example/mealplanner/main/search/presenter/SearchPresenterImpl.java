@@ -7,6 +7,7 @@ import com.example.mealplanner.models.CategoryListResponse;
 import com.example.mealplanner.models.CategoryRepository;
 import com.example.mealplanner.models.IngredientListResponse;
 import com.example.mealplanner.models.IngredientsRepository;
+import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepository;
 import com.example.mealplanner.models.MealsResponse;
 import com.example.mealplanner.networkLayer.ApiCallback;
@@ -18,6 +19,8 @@ public class SearchPresenterImpl implements SearchPresenter, ApiCallback<Object>
     IngredientsRepository ingredientsRepository;
     AreaRepository areaRepository;
     SearchView view;
+    String savedId;
+    String date;
     String TAG = "SearchPresenterImpl";
 
     public SearchPresenterImpl(MealsRepository mealsRepository, CategoryRepository categoryRepository, IngredientsRepository ingredientsRepository, AreaRepository areaRepository, SearchView view) {
@@ -37,23 +40,19 @@ public class SearchPresenterImpl implements SearchPresenter, ApiCallback<Object>
 
     @Override
     public void addToSaved(String mealId) {
-
+        savedId = mealId;
+        mealsRepository.getMealById(mealId, this);
     }
 
     @Override
-    public void delFromSaved(String mealId) {
-
+    public void addToPlan(String mealId, int date) {
+        if (date < 10)
+            this.date = "0" + String.valueOf(date);
+        else
+            this.date = String.valueOf(date);
+        mealsRepository.getMealById(mealId, this);
     }
 
-    @Override
-    public void addToPlan(String mealId) {
-
-    }
-
-    @Override
-    public void delFromPlan(String mealId) {
-
-    }
 
     @Override
     public void getCategoryList() {
@@ -82,8 +81,16 @@ public class SearchPresenterImpl implements SearchPresenter, ApiCallback<Object>
             }else {
                 view.showAreaList(((AreaListResponse)response).getAreaNames());
             }
+        }else if(endpoint.equals(Constants.APIEndpoints.LOOKUP_MEAL)){
+            Meal meal = ((MealsResponse) response).getMeals().get(0);
+            if (savedId != null && savedId.equals(meal.getIdMeal())) {
+                mealsRepository.addMealToSaved(meal);
+                savedId = null;
+            } else {
+                meal.setPlanDate(date);
+                mealsRepository.addMealToPlan(meal);
+            }
         }
-
     }
 
     @Override

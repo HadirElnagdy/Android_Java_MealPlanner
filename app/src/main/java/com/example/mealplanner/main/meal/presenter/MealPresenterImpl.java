@@ -2,8 +2,6 @@ package com.example.mealplanner.main.meal.presenter;
 
 
 
-import android.util.Log;
-
 import com.example.mealplanner.main.meal.view.MealView;
 import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepository;
@@ -32,14 +30,18 @@ public class MealPresenterImpl implements MealPresenter, ApiCallback<Object> {
     }
 
     @Override
-    public void addMealToPlan(Meal meal) {
+    public void addMealToPlan(Meal meal, int date) {
+        String dateString;
+        if (date < 10)
+            dateString = "0" + String.valueOf(date);
+        else
+            dateString = String.valueOf(date);
+
+        meal.setPlanDate(dateString);
         repo.addMealToPlan(meal);
     }
 
-    @Override
-    public Observable<Boolean> isSaved(Meal meal) {
-        return repo.isSaved(meal.getIdMeal());
-    }
+
 
     @Override
     public void getMealById(String mealId) {

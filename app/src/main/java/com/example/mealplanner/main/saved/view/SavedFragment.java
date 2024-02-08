@@ -50,7 +50,6 @@ public class SavedFragment extends Fragment implements MealInteractionListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("TAG", "onCreate: i'm saved");
 
     }
 
