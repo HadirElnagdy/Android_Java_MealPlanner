@@ -38,7 +38,13 @@ public class SavedPresenterImpl implements SavedPresenter{
 
     @Override
     public void addMealToPlan(Meal meal, int day) {
-        meal.setPlanDate(String.valueOf(day));
+        String date;
+        if (day < 10)
+            date = "0" + String.valueOf(day);
+        else
+            date = String.valueOf(day);
+
+        meal.setPlanDate(date);
         repo.addMealToPlan(meal);
     }
 

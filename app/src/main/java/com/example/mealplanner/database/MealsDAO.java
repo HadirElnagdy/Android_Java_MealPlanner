@@ -19,7 +19,7 @@ public interface MealsDAO {
     @Query("SELECT * FROM meals_table WHERE dbType = 'Saved' AND userEmail = :userEmail")
     Observable<List<Meal>> getAllSavedMeals(String userEmail);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertSavedMeal(Meal meal);
 
     @Delete
@@ -35,7 +35,7 @@ public interface MealsDAO {
     Observable<List<Meal>> getPlanByDate(String userEmail, String planDate);
 
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertPlannedMeal(Meal meal);
 
     @Delete
