@@ -95,8 +95,9 @@ public class FilterFragment extends Fragment implements FilterView, MealInteract
             calendar.setTimeInMillis(selection);
             int date = calendar.get(Calendar.DAY_OF_MONTH);
             presenter.addToPlan(mealId, date);
+            Toast.makeText(getContext(), "Meal added successfully!", Toast.LENGTH_SHORT).show();
         });
-        Toast.makeText(getContext(), "Meal added successfully!", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

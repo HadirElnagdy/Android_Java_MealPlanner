@@ -111,8 +111,9 @@ public class SavedFragment extends Fragment implements MealInteractionListener, 
             int day = calendar.get(Calendar.DAY_OF_MONTH);
             Log.i("TAG", "onViewCreated: selected day: " + day);
             presenter.addMealToPlan(meal, day);
+            Toast.makeText(getContext(), "Meal added successfully!", Toast.LENGTH_SHORT).show();
         });
-        Toast.makeText(getContext(), "Meal added successfully!", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

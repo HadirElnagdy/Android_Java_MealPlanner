@@ -92,9 +92,9 @@ public class PlanFragment extends Fragment implements PlanView, PlanListener, Pl
                 }
             }).attach();
 
-            viewPager.setCurrentItem(currentDayOfMonth - 1, false);
             pagerAdapter.updateMealList(mealsList);
             pagerAdapter.notifyDataSetChanged();
+            viewPager.setCurrentItem(currentDayOfMonth - 1, false);
         }
     }
 
@@ -128,6 +128,7 @@ public class PlanFragment extends Fragment implements PlanView, PlanListener, Pl
                         throwable -> {
                             Log.i("PlanFragment", "throwable: " + throwable.getMessage());
                         });
+
     }
 
     @Override

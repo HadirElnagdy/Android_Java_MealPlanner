@@ -4,12 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.UserManager;
-import com.example.mealplanner.util.NetworkUtils;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,23 +29,24 @@ public class MealsLocalDataSourceImpl implements MealsLocalDataSource {
     private UserManager manager;
     String userEmail;
     String sanitizedEmail;
+    List<Meal> firebaseMeals;
     Context context;
 
     private MealsLocalDataSourceImpl(Context context){
         manager = new UserManager();
         this.context = context;
         mealsDAO = AppDatabase.getInstance(context.getApplicationContext()).getMealDAO();
-
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("meals");
-
+        firebaseMeals = new ArrayList<>();
         if(manager.getUser() != null){
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            databaseReference = firebaseDatabase.getReference("meals");
             userEmail = manager.getCurrentUserEmail();
-            sanitizedEmail = userEmail.replace(".", "_").replace("#", "_").replace("$", "_").replace("[", "_").replace("]", "_");
-
+            sanitizedEmail = userEmail.replace(".", "_");
             savedMealsList = mealsDAO.getAllSavedMeals(userEmail);
             plannedMealsList = mealsDAO.getAllPlannedMeals(userEmail);
+            syncSavedDataSources();
         }
+
     }
 
     public static MealsLocalDataSourceImpl getInstance(Context context){
@@ -164,6 +162,57 @@ public class MealsLocalDataSourceImpl implements MealsLocalDataSource {
                 );
     }
 
+    private void syncSavedDataSources() {
+        databaseReference.child(sanitizedEmail).child("savedMeals").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Meal> firebaseMeals = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Meal meal = dataSnapshot.getValue(Meal.class);
+                    if (meal != null) {
+                        firebaseMeals.add(meal);
+                    }
+                }
+                mealsDAO.getAllSavedMeals(userEmail)
+                        .subscribeOn(Schedulers.io()) // Perform database operation on IO thread
+                        .observeOn(AndroidSchedulers.mainThread()) // Observe the result on the main thread
+                        .subscribe(localMeals -> {
+                            for (Meal firebaseMeal : firebaseMeals) {
+                                boolean found = false;
+                                for (Meal localMeal : localMeals) {
+                                    if (firebaseMeal.getIdMeal().equals(localMeal.getIdMeal())) {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if (!found) {
+                                    // Perform insertion on IO thread
+                                    Observable.fromCallable(() -> {
+                                                mealsDAO.insertSavedMeal(firebaseMeal);
+                                                return true;
+                                            })
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(
+                                                    result -> {
+                                                        // Handle successful insertion if needed
+                                                    },
+                                                    error -> {
+                                                        Log.e("TAG", "Error inserting saved meal: " + error.getMessage());
+                                                    }
+                                            );
+                                }
+                            }
+                        });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", "Error fetching data from Firebase: " + error.getMessage());
+            }
+        });
+    }
 
 
 
