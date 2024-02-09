@@ -45,6 +45,7 @@ public class MealsLocalDataSourceImpl implements MealsLocalDataSource {
             savedMealsList = mealsDAO.getAllSavedMeals(userEmail);
             plannedMealsList = mealsDAO.getAllPlannedMeals(userEmail);
             syncSavedDataSources();
+            syncPlandDataSources();
         }
 
     }
@@ -181,6 +182,57 @@ public class MealsLocalDataSourceImpl implements MealsLocalDataSource {
                                 boolean found = false;
                                 for (Meal localMeal : localMeals) {
                                     if (firebaseMeal.getIdMeal().equals(localMeal.getIdMeal())) {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if (!found) {
+                                    // Perform insertion on IO thread
+                                    Observable.fromCallable(() -> {
+                                                mealsDAO.insertSavedMeal(firebaseMeal);
+                                                return true;
+                                            })
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(
+                                                    result -> {
+                                                        // Handle successful insertion if needed
+                                                    },
+                                                    error -> {
+                                                        Log.e("TAG", "Error inserting saved meal: " + error.getMessage());
+                                                    }
+                                            );
+                                }
+                            }
+                        });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", "Error fetching data from Firebase: " + error.getMessage());
+            }
+        });
+    }
+    private void syncPlandDataSources() {
+        databaseReference.child(sanitizedEmail).child("plannedMeals").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Meal> firebaseMeals = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Meal meal = dataSnapshot.getValue(Meal.class);
+                    if (meal != null) {
+                        firebaseMeals.add(meal);
+                    }
+                }
+                mealsDAO.getAllSavedMeals(userEmail)
+                        .subscribeOn(Schedulers.io()) // Perform database operation on IO thread
+                        .observeOn(AndroidSchedulers.mainThread()) // Observe the result on the main thread
+                        .subscribe(localMeals -> {
+                            for (Meal firebaseMeal : firebaseMeals) {
+                                boolean found = false;
+                                for (Meal localMeal : localMeals) {
+                                    if (firebaseMeal.getPlanDate().equals(localMeal.getPlanDate())) {
                                         found = true;
                                         break;
                                     }
