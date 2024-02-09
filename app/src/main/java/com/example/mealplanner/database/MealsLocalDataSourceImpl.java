@@ -60,6 +60,9 @@ public class MealsLocalDataSourceImpl implements MealsLocalDataSource {
         this.userEmail = userEmail;
         savedMealsList = mealsDAO.getAllSavedMeals(userEmail);
         plannedMealsList = mealsDAO.getAllPlannedMeals(userEmail);
+        sanitizedEmail = userEmail.replace(".", "_");
+        syncSavedDataSources();
+        syncPlandDataSources();
     }
     @Override
     public void insertSavedMeal(Meal meal) {

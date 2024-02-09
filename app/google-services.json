@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "909627947675",
+    "firebase_url": "https://login-register-firebase-6d1ed-default-rtdb.firebaseio.com",
     "project_id": "login-register-firebase-6d1ed",
     "storage_bucket": "login-register-firebase-6d1ed.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.example.mealplanner"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "909627947675-i52e06alrl085j0s3493jve0jk3b5n2k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mealplanner",
+            "certificate_hash": "ea1638b2638ecbee20887f62a4a834a6336c9d6d"
+          }
+        },
+        {
+          "client_id": "909627947675-7c98ulsbrk7heuv3sl49fd817s0cl2q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDnHjlIFEdJ-tq1ojRRrcTZZeCNYMZQWF4"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909627947675-7c98ulsbrk7heuv3sl49fd817s0cl2q2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

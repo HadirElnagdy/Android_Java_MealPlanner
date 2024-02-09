@@ -36,14 +36,14 @@
             <TextView
                 android:id="@+id/txt_random_meal"
                 android:layout_width="0dp"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="TextView"
                 android:textSize="15.5sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/btn_save_random"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/img_random_meal"
                 app:layout_constraintTop_toTopOf="parent" />
 

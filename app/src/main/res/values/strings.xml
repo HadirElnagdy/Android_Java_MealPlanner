@@ -34,5 +34,6 @@
     <string name="have_account">Already have an account?</string>
     <string name="login">Login</string>
     <string name="create_your_account">Create Your Account</string>
+    <string name="default_web_client_id">909627947675-i52e06alrl085j0s3493jve0jk3b5n2k.apps.googleusercontent.com</string>
 
 </resources>
