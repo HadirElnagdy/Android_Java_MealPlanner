@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.mealplanner.R;
 import com.example.mealplanner.database.MealsLocalDataSourceImpl;
@@ -26,6 +27,7 @@ import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepositoryImpl;
 import com.example.mealplanner.networkLayer.Constants;
 import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;
+import com.example.mealplanner.util.CustomAlertDialog;
 import com.example.mealplanner.util.DayPickerDialog;
 import com.google.android.material.datepicker.MaterialDatePicker;
 
@@ -82,6 +84,7 @@ public class FilterFragment extends Fragment implements FilterView, MealInteract
     @Override
     public void onSaveClicked(String mealId, Meal meal) {
         presenter.addToSaved(mealId);
+        Toast.makeText(getContext(), "Meal saved successfully!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -93,6 +96,7 @@ public class FilterFragment extends Fragment implements FilterView, MealInteract
             int date = calendar.get(Calendar.DAY_OF_MONTH);
             presenter.addToPlan(mealId, date);
         });
+        Toast.makeText(getContext(), "Meal added successfully!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -102,7 +106,10 @@ public class FilterFragment extends Fragment implements FilterView, MealInteract
         Navigation.findNavController(view).navigate(action);
     }
 
-
+    @Override
+    public void showLoginAlert() {
+        CustomAlertDialog.showLoginDialog(getContext(), view);
+    }
 
 
     private void getFilteredList(){

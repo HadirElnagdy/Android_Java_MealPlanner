@@ -20,6 +20,7 @@ import com.example.mealplanner.R;
 import com.example.mealplanner.authentication.signin.presenter.SigninPresenter;
 import com.example.mealplanner.authentication.signin.presenter.SigninPresenterImpl;
 import com.example.mealplanner.main.view.MainActivity;
+import com.example.mealplanner.util.CustomAlertDialog;
 import com.google.android.material.textfield.TextInputLayout;
 
 
@@ -89,10 +90,7 @@ public class SigninFragment extends Fragment implements SigninView {
 
     @Override
     public void showErrorMsg(String errorMessage) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage(errorMessage).setTitle("An Error Occurred");
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        CustomAlertDialog.showSimpleAlert(getContext(), "An error occured", errorMessage);
     }
 
 }

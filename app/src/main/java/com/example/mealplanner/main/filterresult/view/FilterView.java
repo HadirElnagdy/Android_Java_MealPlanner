@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface FilterView {
     public void showFilteredList(List<FilteredMeal> mealList);
+    public void showLoginAlert();
 }

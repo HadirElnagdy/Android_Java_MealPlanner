@@ -10,6 +10,7 @@ import com.example.mealplanner.models.IngredientsRepository;
 import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepository;
 import com.example.mealplanner.models.MealsResponse;
+import com.example.mealplanner.models.UserManager;
 import com.example.mealplanner.networkLayer.ApiCallback;
 import com.example.mealplanner.networkLayer.Constants;
 
@@ -21,6 +22,7 @@ public class SearchPresenterImpl implements SearchPresenter, ApiCallback<Object>
     SearchView view;
     String savedId;
     String date;
+    UserManager manager = new UserManager();
     String TAG = "SearchPresenterImpl";
 
     public SearchPresenterImpl(MealsRepository mealsRepository, CategoryRepository categoryRepository, IngredientsRepository ingredientsRepository, AreaRepository areaRepository, SearchView view) {
@@ -40,17 +42,22 @@ public class SearchPresenterImpl implements SearchPresenter, ApiCallback<Object>
 
     @Override
     public void addToSaved(String mealId) {
-        savedId = mealId;
-        mealsRepository.getMealById(mealId, this);
+        if(manager.isLoggedIn()) {
+            savedId = mealId;
+            mealsRepository.getMealById(mealId, this);
+        }else {
+            view.showLoginAlert();
+        }
     }
 
     @Override
     public void addToPlan(String mealId, int date) {
-        if (date < 10)
-            this.date = "0" + String.valueOf(date);
-        else
-            this.date = String.valueOf(date);
-        mealsRepository.getMealById(mealId, this);
+        if(manager.isLoggedIn()) {
+            this.date = (date < 10?"0" + String.valueOf(date) : String.valueOf(date));
+            mealsRepository.getMealById(mealId, this);
+        }else {
+            view.showLoginAlert();
+        }
     }
 
 

@@ -6,6 +6,7 @@ import com.example.mealplanner.main.meal.view.MealView;
 import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepository;
 import com.example.mealplanner.models.MealsResponse;
+import com.example.mealplanner.models.UserManager;
 import com.example.mealplanner.networkLayer.ApiCallback;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -13,6 +14,7 @@ import io.reactivex.rxjava3.core.Observable;
 public class MealPresenterImpl implements MealPresenter, ApiCallback<Object> {
     MealsRepository repo;
     MealView view;
+    UserManager manager = new UserManager();
 
     public MealPresenterImpl(MealsRepository repo, MealView view) {
         this.repo = repo;
@@ -21,24 +23,25 @@ public class MealPresenterImpl implements MealPresenter, ApiCallback<Object> {
 
     @Override
     public void addMealToSaved(Meal meal) {
-        repo.addMealToSaved(meal);
+        if(manager.isLoggedIn()) {
+            repo.addMealToSaved(meal);
+        }else {
+            view.showLoginAlert();
+        }
     }
 
-    @Override
-    public void deleteMealFromSaved(Meal meal) {
-        repo.deleteSavedMeal(meal);
-    }
+
 
     @Override
     public void addMealToPlan(Meal meal, int date) {
-        String dateString;
-        if (date < 10)
-            dateString = "0" + String.valueOf(date);
-        else
-            dateString = String.valueOf(date);
-
-        meal.setPlanDate(dateString);
-        repo.addMealToPlan(meal);
+        if(manager.isLoggedIn()) {
+            String dateString;
+            dateString = (date < 10?"0" + String.valueOf(date) : String.valueOf(date));
+            meal.setPlanDate(dateString);
+            repo.addMealToPlan(meal);
+        }else {
+            view.showLoginAlert();
+        }
     }
 
 

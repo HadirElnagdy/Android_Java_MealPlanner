@@ -6,24 +6,21 @@ import android.icu.util.Calendar;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.mealplanner.R;
 import com.example.mealplanner.database.MealsLocalDataSourceImpl;
@@ -37,6 +34,7 @@ import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepositoryImpl;
 import com.example.mealplanner.networkLayer.ImageLoader;
 import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;
+import com.example.mealplanner.util.CustomAlertDialog;
 import com.example.mealplanner.util.DayPickerDialog;
 import com.google.android.material.datepicker.MaterialDatePicker;
 
@@ -44,10 +42,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class HomeFragment extends Fragment implements HomeView, MealInteractionListener {
@@ -100,6 +94,7 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
     @Override
     public void onSaveClicked(String id, Meal meal) {
         presenter.toggleSavedStatus(id, meal);
+        Toast.makeText(getContext(), "Meal saved successfully!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -109,6 +104,7 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
             calendar.setTimeInMillis(selection);
             int date = calendar.get(Calendar.DAY_OF_MONTH);
             presenter.addMealToPlan(id, meal, date);
+            Toast.makeText(getContext(), "Meal added successfully!", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -147,12 +143,10 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
     }
 
     @Override
-    public void showError(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage(message).setTitle("An Error Occurred");
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    public void showLoginAlert() {
+        CustomAlertDialog.showLoginDialog(getContext(), view);
     }
+
     private void intializeViews(View view){
         recyclerView = view.findViewById(R.id.recycler_view_home);
         txtRandomMeal = view.findViewById(R.id.txt_random_meal);
@@ -166,7 +160,7 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
         btnSaveRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.toggleSavedStatus(null, getRandomMeal());
+                onSaveClicked(null, getRandomMeal());
             }
         });
 

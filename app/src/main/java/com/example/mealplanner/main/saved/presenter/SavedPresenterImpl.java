@@ -22,9 +22,15 @@ public class SavedPresenterImpl implements SavedPresenter{
         this.repo = repo;
     }
 
-    public void updateUserEmail(Context context){
-        MealsLocalDataSourceImpl.getInstance(context).updateUserEmail(manager.getCurrentUserEmail());
-        repo.setLocalDataSource(MealsLocalDataSourceImpl.getInstance(context));
+    public boolean updateUserEmail(Context context){
+        String userEmail = manager.getCurrentUserEmail();
+        boolean updated = false;
+        if(userEmail != null) {
+            MealsLocalDataSourceImpl.getInstance(context).updateUserEmail(userEmail);
+            repo.setLocalDataSource(MealsLocalDataSourceImpl.getInstance(context));
+            updated = true;
+        }
+        return updated;
     }
     @Override
     public Observable<List<Meal>> getSavedMeals() {

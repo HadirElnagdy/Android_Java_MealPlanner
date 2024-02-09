@@ -14,5 +14,5 @@ public interface SavedPresenter {
     public void deleteSavedMeal(Meal meal);
 
     public void addMealToPlan(Meal meal, int day);
-    public void updateUserEmail(Context context);
+    public boolean updateUserEmail(Context context);
 }

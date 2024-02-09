@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.mealplanner.R;
 import com.example.mealplanner.database.MealsLocalDataSourceImpl;
@@ -25,6 +26,7 @@ import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepositoryImpl;
 import com.example.mealplanner.models.UserManager;
 import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;
+import com.example.mealplanner.util.CustomAlertDialog;
 import com.example.mealplanner.util.DayPickerDialog;
 import com.google.android.material.datepicker.MaterialDatePicker;
 
@@ -36,7 +38,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
-public class SavedFragment extends Fragment implements MealInteractionListener {
+public class SavedFragment extends Fragment implements MealInteractionListener, SavedView {
 
     RecyclerView recyclerViewSaved;
     MealsAdapter mealsAdapter;
@@ -65,10 +67,14 @@ public class SavedFragment extends Fragment implements MealInteractionListener {
         this.view = view;
         presenter = new SavedPresenterImpl(MealsRepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance()
                 , MealsLocalDataSourceImpl.getInstance(getContext())));
-        presenter.updateUserEmail(getContext());
-        mealsAdapter = new MealsAdapter(getContext(), new ArrayList<>(), this);
-        mealsAdapter.setTxtBtnSave("Delete");
-        setupRecyclerView();
+        if(presenter.updateUserEmail(getContext())){
+            mealsAdapter = new MealsAdapter(getContext(), new ArrayList<>(), this);
+            mealsAdapter.setTxtBtnSave("Delete");
+            setupRecyclerView();
+        }else {
+            showLoginAlert();
+        }
+
     }
     private void setupRecyclerView(){
         recyclerViewSaved = view.findViewById(R.id.recycler_view_saved);
@@ -94,6 +100,7 @@ public class SavedFragment extends Fragment implements MealInteractionListener {
     @Override
     public void onSaveClicked(String mealId, Meal meal) {
         presenter.deleteSavedMeal(meal);
+        Toast.makeText(getContext(), "Meal deleted successfully!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -105,6 +112,7 @@ public class SavedFragment extends Fragment implements MealInteractionListener {
             Log.i("TAG", "onViewCreated: selected day: " + day);
             presenter.addMealToPlan(meal, day);
         });
+        Toast.makeText(getContext(), "Meal added successfully!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -113,7 +121,10 @@ public class SavedFragment extends Fragment implements MealInteractionListener {
         Navigation.findNavController(view).navigate(action);
     }
 
-
+    @Override
+    public void showLoginAlert() {
+        CustomAlertDialog.showLoginDialog(getContext(), view);
+    }
 
 
 }

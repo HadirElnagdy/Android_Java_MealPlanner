@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,6 +24,7 @@ import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepositoryImpl;
 import com.example.mealplanner.networkLayer.ImageLoader;
 import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;
+import com.example.mealplanner.util.CustomAlertDialog;
 import com.example.mealplanner.util.DayPickerDialog;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
@@ -55,6 +57,7 @@ public class MealFragment extends Fragment implements MealView{
     String mealId;
     IngredientsAdapter adapter;
     MealPresenter presenter;
+    View view;
 
     public MealFragment() {
         // Required empty public constructor
@@ -77,7 +80,7 @@ public class MealFragment extends Fragment implements MealView{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_meal, container, false);
+        view = inflater.inflate(R.layout.fragment_meal, container, false);
         initializeComponents(view);
         return view;
     }
@@ -175,6 +178,7 @@ public class MealFragment extends Fragment implements MealView{
                     calendar.setTimeInMillis(selection);
                     int date = calendar.get(Calendar.DAY_OF_MONTH);
                     presenter.addMealToPlan(meal, date);
+                    Toast.makeText(getContext(), "Meal added successfully!", Toast.LENGTH_SHORT).show();
                 });
 
             }
@@ -197,6 +201,7 @@ public class MealFragment extends Fragment implements MealView{
             @Override
             public void onClick(View view) {
                 presenter.addMealToSaved(meal);
+                Toast.makeText(getContext(), "Meal saved successfully!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -216,5 +221,10 @@ public class MealFragment extends Fragment implements MealView{
     public void setMeal(Meal meal) {
         this.meal = meal;
         setupView();
+    }
+
+    @Override
+    public void showLoginAlert() {
+        CustomAlertDialog.showLoginDialog(getContext(), view);
     }
 }

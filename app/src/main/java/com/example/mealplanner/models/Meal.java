@@ -9,7 +9,7 @@ import androidx.room.Entity;
 import com.google.gson.annotations.SerializedName;
 
 
-@Entity(tableName = "meals_table", primaryKeys = {"idMeal", "userEmail", "dbType"})
+@Entity(tableName = "meals_table", primaryKeys = {"idMeal", "userEmail", "dbType", "planDate"})
 public class Meal implements Parcelable {
     @NonNull
     private String idMeal;
@@ -69,6 +69,7 @@ public class Meal implements Parcelable {
     private String strMeasure19;
     private String strMeasure20;
     @SerializedName("strSource")
+    @NonNull
     private String planDate;
     private String strImageSource;
 

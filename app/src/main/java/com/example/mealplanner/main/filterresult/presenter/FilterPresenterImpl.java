@@ -6,6 +6,7 @@ import com.example.mealplanner.models.FilteredMealsResponse;
 import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepository;
 import com.example.mealplanner.models.MealsResponse;
+import com.example.mealplanner.models.UserManager;
 import com.example.mealplanner.networkLayer.ApiCallback;
 import com.example.mealplanner.networkLayer.Constants;
 
@@ -16,6 +17,7 @@ public class FilterPresenterImpl implements FilterPresenter, ApiCallback<Object>
     String date;
     String savedId;
 
+    UserManager manager = new UserManager();
 
 
     public FilterPresenterImpl(MealsRepository mealsRepository, FilterView view) {
@@ -25,17 +27,22 @@ public class FilterPresenterImpl implements FilterPresenter, ApiCallback<Object>
 
     @Override
     public void addToSaved(String mealId) {
-        savedId = mealId;
-        mealsRepository.getMealById(mealId, this);
+        if(manager.isLoggedIn()) {
+            savedId = mealId;
+            mealsRepository.getMealById(mealId, this);
+        }else {
+            view.showLoginAlert();
+        }
     }
 
     @Override
     public void addToPlan(String mealId, int date) {
-        if (date < 10)
-            this.date = "0" + String.valueOf(date);
-        else
-            this.date = String.valueOf(date);
-        mealsRepository.getMealById(mealId, this);
+        if(manager.isLoggedIn()) {
+            this.date = (date < 10?"0" + String.valueOf(date) : String.valueOf(date));
+            mealsRepository.getMealById(mealId, this);
+        }else {
+            view.showLoginAlert();
+        }
     }
 
     @Override

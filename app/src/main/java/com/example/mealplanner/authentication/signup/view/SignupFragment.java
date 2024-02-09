@@ -26,6 +26,7 @@ import com.example.mealplanner.authentication.signin.view.SigninFragmentDirectio
 import com.example.mealplanner.authentication.signup.presenter.SignupPresenter;
 import com.example.mealplanner.authentication.signup.presenter.SignupPresenterImpl;
 import com.example.mealplanner.main.view.MainActivity;
+import com.example.mealplanner.util.CustomAlertDialog;
 import com.google.android.material.textfield.TextInputLayout;
 
 
@@ -97,9 +98,6 @@ public class SignupFragment extends Fragment implements SignupView{
 
     @Override
     public void showErrorMsg(String errorMessage) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage(errorMessage).setTitle("An Error Occurred");
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        CustomAlertDialog.showSimpleAlert(getContext(), "An error occured", errorMessage);
     }
 }

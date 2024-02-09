@@ -16,4 +16,5 @@ public interface SearchView {
     public void showIngredientList(List<Ingredient> ingredients);
     public void showAreaList(List<AreaName> areaNames);
 
+    public void showLoginAlert();
 }

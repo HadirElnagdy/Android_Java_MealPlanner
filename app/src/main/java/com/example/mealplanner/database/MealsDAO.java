@@ -19,7 +19,7 @@ public interface MealsDAO {
     @Query("SELECT * FROM meals_table WHERE dbType = 'Saved' AND userEmail = :userEmail")
     Observable<List<Meal>> getAllSavedMeals(String userEmail);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertSavedMeal(Meal meal);
 
     @Delete

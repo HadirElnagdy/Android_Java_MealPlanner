@@ -9,6 +9,7 @@ import com.example.mealplanner.models.FilteredMealsResponse;
 import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepository;
 import com.example.mealplanner.models.MealsResponse;
+import com.example.mealplanner.models.UserManager;
 import com.example.mealplanner.networkLayer.ApiCallback;
 import com.example.mealplanner.networkLayer.Constants;
 
@@ -23,6 +24,7 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
     String savedId;
     String date;
     String TAG = "HomePresenterImpl";
+    UserManager manager = new UserManager();
 
     public HomePresenterImpl(HomeView view, CategoryRepository categoryRepository, MealsRepository mealsRepository) {
         this.view = view;
@@ -46,26 +48,30 @@ public class HomePresenterImpl implements HomePresenter, ApiCallback<Object> {
 
     @Override
     public void toggleSavedStatus(String mealId, Meal meal) {
-        if (meal != null) mealsRepository.addMealToSaved(meal);
-        else {
-            savedId = mealId;
-            mealsRepository.getMealById(mealId, this);
+        if(manager.isLoggedIn()) {
+            if (meal != null) mealsRepository.addMealToSaved(meal);
+            else {
+                savedId = mealId;
+                mealsRepository.getMealById(mealId, this);
+            }
+        }else {
+            view.showLoginAlert();
         }
     }
 
 
     @Override
     public void addMealToPlan(String mealId, Meal meal, int date) {
-        if (date < 10)
-            this.date = "0" + String.valueOf(date);
-        else
-            this.date = String.valueOf(date);
-
-        if (mealId == null) {
-            meal.setPlanDate(this.date);
-            mealsRepository.addMealToPlan(meal);
-        } else {
-            mealsRepository.getMealById(mealId, this);
+        if(manager.isLoggedIn()) {
+            this.date = (date < 10?"0" + String.valueOf(date) : String.valueOf(date));
+            if (mealId == null) {
+                meal.setPlanDate(this.date);
+                mealsRepository.addMealToPlan(meal);
+            } else {
+                mealsRepository.getMealById(mealId, this);
+            }
+        }else {
+            view.showLoginAlert();
         }
 
     }

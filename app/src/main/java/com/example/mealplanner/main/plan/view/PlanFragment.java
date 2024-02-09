@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,41 +58,44 @@ public class PlanFragment extends Fragment implements PlanView, PlanListener, Pl
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
         presenter = new PlanPresenterImpl(this, MealsRepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(), MealsLocalDataSourceImpl.getInstance(getContext())));
-        presenter.updateUserEmail(getContext());
-        mealsList = new HashMap<>();
-        tabLayout = view.findViewById(R.id.tab_layout);
-        viewPager = view.findViewById(R.id.view_pager);
-        calendar = Calendar.getInstance();
+        if(!presenter.updateUserEmail(getContext())){
+            showLoginDialog();
+        }else {
+            mealsList = new HashMap<>();
+            tabLayout = view.findViewById(R.id.tab_layout);
+            viewPager = view.findViewById(R.id.view_pager);
+            calendar = Calendar.getInstance();
 
-        int currentDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        Date firstDayOfMonth = calendar.getTime();
-        calendar.add(Calendar.MONTH, 1);
-        calendar.add(Calendar.DATE, -1);
-        Date lastDayOfMonth = calendar.getTime();
+            int currentDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            Date firstDayOfMonth = calendar.getTime();
+            calendar.add(Calendar.MONTH, 1);
+            calendar.add(Calendar.DATE, -1);
+            Date lastDayOfMonth = calendar.getTime();
 
-        List<String> tabNames = generateTabNames(firstDayOfMonth, lastDayOfMonth);
-        pagerAdapter = new PlanPagerAdapter(getContext(), new HashMap<>() , this, this);
+            List<String> tabNames = generateTabNames(firstDayOfMonth, lastDayOfMonth);
+            pagerAdapter = new PlanPagerAdapter(getContext(), new HashMap<>(), this, this);
 
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+            viewPager.setAdapter(pagerAdapter);
+            viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            int currentTabDay = position + 1;
-            if (currentTabDay == currentDayOfMonth) {
-                tab.setText("Today");
-            } else if (currentTabDay == currentDayOfMonth - 1) {
-                tab.setText("Yesterday");
-            } else if (currentTabDay == currentDayOfMonth + 1) {
-                tab.setText("Tomorrow");
-            } else {
-                tab.setText(tabNames.get(position));
-            }
-        }).attach();
+            new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+                int currentTabDay = position + 1;
+                if (currentTabDay == currentDayOfMonth) {
+                    tab.setText("Today");
+                } else if (currentTabDay == currentDayOfMonth - 1) {
+                    tab.setText("Yesterday");
+                } else if (currentTabDay == currentDayOfMonth + 1) {
+                    tab.setText("Tomorrow");
+                } else {
+                    tab.setText(tabNames.get(position));
+                }
+            }).attach();
 
-        viewPager.setCurrentItem(currentDayOfMonth - 1, false);
-        pagerAdapter.updateMealList(mealsList);
-        pagerAdapter.notifyDataSetChanged();
+            viewPager.setCurrentItem(currentDayOfMonth - 1, false);
+            pagerAdapter.updateMealList(mealsList);
+            pagerAdapter.notifyDataSetChanged();
+        }
     }
 
     private List<String> generateTabNames(Date firstDayOfMonth, Date lastDayOfMonth) {
@@ -136,18 +140,15 @@ public class PlanFragment extends Fragment implements PlanView, PlanListener, Pl
     @Override
     public void onDeletePlanClicked(String mealId, Meal meal) {
         presenter.deletePlannedMeal(meal);
+        Toast.makeText(getContext(), "Meal deleted successfully!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSaveClicked(String mealId, Meal meal) {
         presenter.addToSaved(meal);
+        Toast.makeText(getContext(), "Meal saved successfully!", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void updateList() {
-        /*pagerAdapter.updateMealList(mealsList);
-        pagerAdapter.notifyDataSetChanged();*/
-    }
 
     @Override
     public void showLoginDialog() {

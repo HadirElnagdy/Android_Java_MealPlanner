@@ -55,9 +55,15 @@ public class PlanPresenterImpl implements PlanPresenter{
     public Observable<List<Meal>> getAllPlans() {
         return repository.getPlannedMeals();
     }
-    public void updateUserEmail(Context context){
-        MealsLocalDataSourceImpl.getInstance(context).updateUserEmail(manager.getCurrentUserEmail());
-        repository.setLocalDataSource(MealsLocalDataSourceImpl.getInstance(context));
+    public boolean updateUserEmail(Context context){
+        String userEmail = manager.getCurrentUserEmail();
+        boolean updated = false;
+        if(userEmail != null) {
+            MealsLocalDataSourceImpl.getInstance(context).updateUserEmail(userEmail);
+            repository.setLocalDataSource(MealsLocalDataSourceImpl.getInstance(context));
+            updated = true;
+        }
+        return updated;
     }
 
     @Override

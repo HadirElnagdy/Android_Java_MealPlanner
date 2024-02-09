@@ -6,4 +6,5 @@ public interface MealInteractionListener {
     void onSaveClicked(String mealId, Meal meal);
     void onAddToPlanClicked(String mealId, Meal meal);
     void onOpenMealClicked(String mealId, Meal meal);
+
 }

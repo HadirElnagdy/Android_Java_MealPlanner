@@ -86,8 +86,13 @@ public class UserManager {
         });
     }
     public String getCurrentUserEmail(){
+        if (mAuth.getCurrentUser() == null) return null;
         return mAuth.getCurrentUser().getEmail();
     }
+    public boolean isLoggedIn(){
+        return !(mAuth.getCurrentUser() == null);
+    }
+
     public FirebaseUser getUser(){
         return mAuth.getCurrentUser();
     }
