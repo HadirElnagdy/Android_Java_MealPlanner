@@ -1,5 +1,6 @@
 package com.example.mealplanner.main.search.view;
 
+import android.icu.util.Calendar;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.Group;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.mealplanner.R;
 import com.example.mealplanner.database.MealsLocalDataSourceImpl;
@@ -26,15 +28,17 @@ import com.example.mealplanner.models.AreaName;
 import com.example.mealplanner.models.AreaRepositoryImpl;
 import com.example.mealplanner.models.CategoryName;
 import com.example.mealplanner.models.CategoryRepositoryImpl;
-import com.example.mealplanner.models.FilteredMeal;
 import com.example.mealplanner.models.Ingredient;
 import com.example.mealplanner.models.IngredientsRepositoryImpl;
 import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.models.MealsRepositoryImpl;
 import com.example.mealplanner.networkLayer.Constants;
 import com.example.mealplanner.networkLayer.RemoteDataSourceImpl;
+import com.example.mealplanner.util.CustomAlertDialog;
+import com.example.mealplanner.util.DayPickerDialog;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +66,6 @@ public class SearchFragment extends Fragment implements SearchView, MealInteract
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("TAG", "onCreate: i'm search");
     }
 
     @Override
@@ -148,24 +151,36 @@ public class SearchFragment extends Fragment implements SearchView, MealInteract
 
 
     @Override
-    public void onAddToSaved(String mealId) {
+    public void onSaveClicked(String mealId, Meal meal) {
         presenter.addToSaved(mealId);
+        Toast.makeText(getContext(), "Meal saved successfully!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onAddToPlanClick(String mealId) {
+    public void onAddToPlanClicked(String mealId, Meal meal) {
+        Calendar calendar = Calendar.getInstance();
+        MaterialDatePicker<Long> dayPickerDialog = DayPickerDialog.showDialog(requireActivity().getSupportFragmentManager());
+        dayPickerDialog.addOnPositiveButtonClickListener(selection -> {
+            calendar.setTimeInMillis(selection);
+            int date = calendar.get(Calendar.DAY_OF_MONTH);
+            presenter.addToPlan(mealId, date);
+            Toast.makeText(getContext(), "Meal added successfully!", Toast.LENGTH_SHORT).show();
+        });
+
 
     }
 
     @Override
-    public void onOpenMealClick(String mealId) {
-
+    public void onOpenMealClicked(String mealId, Meal meal) {
+        SearchFragmentDirections.ActionSearchFragmentToMealFragment action = SearchFragmentDirections.actionSearchFragmentToMealFragment(meal, mealId);
+        Navigation.findNavController(view).navigate(action);
     }
 
     @Override
-    public void onDelFromSaved(String mealId) {
-
+    public void showLoginAlert() {
+        CustomAlertDialog.showLoginDialog(getContext(), view);
     }
+
 
     @Override
     public void showMealDetails(String mealId) {

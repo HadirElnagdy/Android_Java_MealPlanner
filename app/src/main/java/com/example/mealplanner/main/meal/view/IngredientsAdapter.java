@@ -5,11 +5,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.mealplanner.R;
 import com.example.mealplanner.networkLayer.ImageLoader;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -32,7 +34,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     @NonNull
     @Override
     public IngredientsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.img_title_cell, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredient_cell, parent, false);
         return new IngredientsAdapter.ViewHolder(view);
     }
     public void setList(List<String> ingredientNames, List<String> ingredientMeasure){
@@ -46,6 +48,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         String ingredientMeasure = ingredientMeasures.get(position);
         Log.i("TAG", "onBindViewHolder: measure " + ingredientMeasure);
         imageLoader.loadIngredientImage(ingredientName, holder.getImgIngredient());
+//        Glide.with(context).load("https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg").into(holder.imgIngredient);
         holder.txtIngredientTitle.setText(ingredientName);
         holder.txtIngredientSubtitle.setText(ingredientMeasure);
     }
@@ -59,7 +62,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
         private TextView txtIngredientTitle;
         private TextView txtIngredientSubtitle;
-        private CircularImageView imgIngredient;
+        private ImageView imgIngredient;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,7 +79,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
             return txtIngredientSubtitle;
         }
 
-        public CircularImageView getImgIngredient() {
+        public ImageView getImgIngredient() {
             return imgIngredient;
         }
     }

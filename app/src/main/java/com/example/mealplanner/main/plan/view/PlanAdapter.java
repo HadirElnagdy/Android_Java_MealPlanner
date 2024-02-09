@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,23 +46,22 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                listener.onOpenMealClick(meal.getIdMeal());
+                listener.onOpenMealClicked(null, meal);
             }
         });
 
         holder.btnSaveMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchBtnImg(holder.btnSaveMeal);
-//                listener.onAddToSaved(meal.getIdMeal());
+                listener.onSaveClicked(null, meal);
 
             }
         });
 
-        holder.btnAddToPlan.setOnClickListener(new View.OnClickListener() {
+        holder.btnDeleteFromPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                listener.onAddToPlanClick(meal.getIdMeal());
+                listener.onDeletePlanClicked(null, meal);
             }
         });
     }
@@ -80,18 +78,17 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
         return meals.size();
     }
 
-    private void switchBtnImg(ImageButton btn) {
-        Integer currentImgResID = (Integer) btn.getTag();
-        if (currentImgResID == null || currentImgResID == R.drawable.ic_save) {
-
-            btn.setImageResource(R.drawable.ic_saved);
-
-            btn.setTag(R.drawable.ic_saved);
-        } else {
-
-            btn.setImageResource(R.drawable.ic_save);
-
-            btn.setTag(R.drawable.ic_save);
+    public void addToList(Meal meal) {
+        boolean exist = false;
+        for (Meal m : meals) {
+            if (m.getIdMeal().equals(meal.getIdMeal())) {
+                exist = true;
+                break;
+            }
+        }
+        if (!exist) {
+            meals.add(meal);
+            notifyDataSetChanged();
         }
     }
 
@@ -100,8 +97,8 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
         ConstraintLayout layout;
         ImageView imgMeal;
         TextView txtMealName;
-        Button btnAddToPlan;
-        ImageButton btnSaveMeal;
+        Button btnDeleteFromPlan;
+        Button btnSaveMeal;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -109,8 +106,9 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
             layout = itemView.findViewById(R.id.constraing_layout_meals_cell);
             txtMealName = itemView.findViewById(R.id.txt_random_meal);
             imgMeal = itemView.findViewById(R.id.img_random_meal);
-            btnAddToPlan = itemView.findViewById(R.id.btn_add_plan_random);
+            btnDeleteFromPlan = itemView.findViewById(R.id.btn_add_plan);
             btnSaveMeal = itemView.findViewById(R.id.btn_save_random);
+            btnDeleteFromPlan.setText("Delete Meal");
         }
 
         public ConstraintLayout getLayout() {

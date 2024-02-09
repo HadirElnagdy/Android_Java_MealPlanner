@@ -1,13 +1,21 @@
 package com.example.mealplanner.main.plan.presenter;
 
+import android.content.Context;
+
+import com.example.mealplanner.models.Meal;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Observable;
+
 public interface PlanPresenter {
-    void getPlanWithId(String dayID);
+    public Observable<List<Meal>> getPlanByDate(String planDate);
 
-    void getAllPlans();
+    public Observable<List<Meal>> getAllPlans();
 
-    void removePlan(String dayID, String mealID);
+    public void deletePlannedMeal(Meal meal);
+    public void addToSaved(Meal meal);
+    public boolean updateUserEmail(Context context);
 
-    FirebaseUser getCurrentUser();
 }

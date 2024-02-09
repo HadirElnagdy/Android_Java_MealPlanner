@@ -46,15 +46,14 @@ public class FilteredMealsAdapter extends RecyclerView.Adapter<FilteredMealsAdap
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onOpenMealClick(meal.getIDMeal());
+                listener.onOpenMealClicked(meal.getIDMeal(), null);
             }
         });
 
         holder.btnSaveMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchBtnImg(holder.btnSaveMeal);
-                listener.onAddToSaved(meal.getIDMeal());
+                listener.onSaveClicked(meal.getIDMeal(), null);
 
             }
         });
@@ -62,7 +61,7 @@ public class FilteredMealsAdapter extends RecyclerView.Adapter<FilteredMealsAdap
         holder.btnAddToPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onAddToPlanClick(meal.getIDMeal());
+                listener.onAddToPlanClicked(meal.getIDMeal(), null);
             }
         });
     }
@@ -77,20 +76,7 @@ public class FilteredMealsAdapter extends RecyclerView.Adapter<FilteredMealsAdap
         return meals.size();
     }
 
-    private void switchBtnImg(ImageButton btn) {
-        Integer currentImgResID = (Integer) btn.getTag();
-        if (currentImgResID == null || currentImgResID == R.drawable.ic_save) {
 
-            btn.setImageResource(R.drawable.ic_saved);
-
-            btn.setTag(R.drawable.ic_saved);
-        } else {
-
-            btn.setImageResource(R.drawable.ic_save);
-
-            btn.setTag(R.drawable.ic_save);
-        }
-    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -98,7 +84,7 @@ public class FilteredMealsAdapter extends RecyclerView.Adapter<FilteredMealsAdap
         ImageView imgMeal;
         TextView txtMealName;
         Button btnAddToPlan;
-        ImageButton btnSaveMeal;
+        Button btnSaveMeal;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -106,7 +92,7 @@ public class FilteredMealsAdapter extends RecyclerView.Adapter<FilteredMealsAdap
             layout = itemView.findViewById(R.id.constraing_layout_meals_cell);
             txtMealName = itemView.findViewById(R.id.txt_random_meal);
             imgMeal = itemView.findViewById(R.id.img_random_meal);
-            btnAddToPlan = itemView.findViewById(R.id.btn_add_plan_random);
+            btnAddToPlan = itemView.findViewById(R.id.btn_add_plan);
             btnSaveMeal = itemView.findViewById(R.id.btn_save_random);
         }
 

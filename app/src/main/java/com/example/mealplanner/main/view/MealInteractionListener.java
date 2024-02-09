@@ -1,8 +1,10 @@
 package com.example.mealplanner.main.view;
 
+import com.example.mealplanner.models.Meal;
+
 public interface MealInteractionListener {
-    void onAddToSaved(String mealId);
-    void onAddToPlanClick(String mealId);
-    void onOpenMealClick(String mealId);
-    void onDelFromSaved(String mealId);
+    void onSaveClicked(String mealId, Meal meal);
+    void onAddToPlanClicked(String mealId, Meal meal);
+    void onOpenMealClicked(String mealId, Meal meal);
+
 }

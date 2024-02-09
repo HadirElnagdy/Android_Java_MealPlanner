@@ -10,7 +10,7 @@ public interface HomeView {
 
    public void showMealCategories(List<CategoryName> categories);
    public void addToMealsList(List<FilteredMeal> meals);
-   public void showError(String message);
    public void showRandomMeal(Meal meal);
+   public void showLoginAlert();
 
 }

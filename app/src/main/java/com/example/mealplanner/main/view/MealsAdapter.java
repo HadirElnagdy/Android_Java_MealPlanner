@@ -1,6 +1,8 @@
 package com.example.mealplanner.main.view;
 
 import android.content.Context;
+import android.telephony.BarringInfo;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealplanner.R;
-import com.example.mealplanner.main.view.MealInteractionListener;
 import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.networkLayer.ImageLoader;
 
@@ -25,52 +26,60 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder>{
     private List<Meal> meals;
     private final MealInteractionListener listener;
     private final ImageLoader imgLoader;
+    private String txtBtnSave;
+    MealsAdapter.ViewHolder holder;
 
     public MealsAdapter(Context context, List<Meal> meals, MealInteractionListener listener) {
         this.meals = meals;
         this.listener = listener;
+        this.txtBtnSave = "Save";
         imgLoader = new ImageLoader(context);
+    }
+    public void setTxtBtnSave(String txt){
+        txtBtnSave = txt;
     }
 
     @NonNull
     @Override
     public MealsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.meals_cell, parent, false);
-        return new MealsAdapter.ViewHolder(view);
+        holder = new MealsAdapter.ViewHolder(view);
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MealsAdapter.ViewHolder holder, int position) {
         Meal meal = meals.get(position);
         holder.txtMealName.setText(meal.getStrMeal());
+        holder.btnSaveMeal.setText(txtBtnSave);
         imgLoader.loadImage(meal.getStrMealThumb(), holder.imgMeal);
+        Log.i("MealsAdapter", "Meal: dpType is " + meal.getDbType() + "Email is " + meal.getUserEmail());
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onOpenMealClick(meal.getIdMeal());
+                listener.onOpenMealClicked(null, meal);
             }
         });
 
         holder.btnSaveMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchBtnImg(holder.btnSaveMeal);
-                listener.onAddToSaved(meal.getIdMeal());
-
+                listener.onSaveClicked(null, meal);
             }
         });
 
         holder.btnAddToPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onAddToPlanClick(meal.getIdMeal());
+                listener.onAddToPlanClicked(null, meal);
             }
         });
+
     }
+
 
     public void setList(List<Meal> meals){
         this.meals = meals;
-        // if (meals == null) Log.e("SearchAdapter", "setList: meals is nullllll");
     }
 
     @Override
@@ -78,20 +87,7 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder>{
         return meals.size();
     }
 
-    private void switchBtnImg(ImageButton btn) {
-        Integer currentImgResID = (Integer) btn.getTag();
-        if (currentImgResID == null || currentImgResID == R.drawable.ic_save) {
 
-            btn.setImageResource(R.drawable.ic_saved);
-
-            btn.setTag(R.drawable.ic_saved);
-        } else {
-
-            btn.setImageResource(R.drawable.ic_save);
-
-            btn.setTag(R.drawable.ic_save);
-        }
-    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -99,7 +95,7 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder>{
         ImageView imgMeal;
         TextView txtMealName;
         Button btnAddToPlan;
-        ImageButton btnSaveMeal;
+        Button btnSaveMeal;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -107,7 +103,7 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder>{
             layout = itemView.findViewById(R.id.constraing_layout_meals_cell);
             txtMealName = itemView.findViewById(R.id.txt_random_meal);
             imgMeal = itemView.findViewById(R.id.img_random_meal);
-            btnAddToPlan = itemView.findViewById(R.id.btn_add_plan_random);
+            btnAddToPlan = itemView.findViewById(R.id.btn_add_plan);
             btnSaveMeal = itemView.findViewById(R.id.btn_save_random);
         }
 

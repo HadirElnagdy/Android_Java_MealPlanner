@@ -3,9 +3,6 @@ package com.example.mealplanner.main.plan.view;
 import com.example.mealplanner.models.Meal;
 
 public interface PlanView {
-    void updateAdapterWithMeal(String tabId, Meal meal);
+    public void showLoginDialog();
 
-    void resetAdapterList(String dayId);
-
-    void showNotLoggedInMessage();
 }

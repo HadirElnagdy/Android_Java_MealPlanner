@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,12 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mealplanner.R;
 import com.example.mealplanner.authentication.signin.presenter.SigninPresenter;
 import com.example.mealplanner.authentication.signin.presenter.SigninPresenterImpl;
 import com.example.mealplanner.main.view.MainActivity;
+import com.example.mealplanner.util.CustomAlertDialog;
+import com.google.android.material.textfield.TextInputLayout;
 
 
 public class SigninFragment extends Fragment implements SigninView {
@@ -26,6 +30,8 @@ public class SigninFragment extends Fragment implements SigninView {
     EditText edtEmail;
     EditText edtPassword;
     SigninPresenter presenter;
+    TextView txtCreateAccount;
+    View view;
 
     public SigninFragment() {
         // Required empty public constructor
@@ -41,9 +47,18 @@ public class SigninFragment extends Fragment implements SigninView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_signin, container, false);
-        edtEmail = view.findViewById(R.id.edt_loginEmail);
-        edtPassword = view.findViewById(R.id.edt_loginPassword);
+        view = inflater.inflate(R.layout.fragment_signin, container, false);
+        TextInputLayout emailInputLayout = view.findViewById(R.id.edt_login_email);
+        TextInputLayout passwordInputLayout = view.findViewById(R.id.edt_login_password);
+        edtEmail = emailInputLayout.getEditText();
+        edtPassword = passwordInputLayout.getEditText();
+        txtCreateAccount = view.findViewById(R.id.txt_create_account);
+        txtCreateAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSignup();
+            }
+        });
         btnSignIn = view.findViewById(R.id.btn_signin);
         presenter = new SigninPresenterImpl(this);
         btnSignIn.setOnClickListener(new View.OnClickListener() {
@@ -67,15 +82,15 @@ public class SigninFragment extends Fragment implements SigninView {
     public void goToHome() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
+    }
 
+    private void goToSignup(){
+        Navigation.findNavController(view).navigate(SigninFragmentDirections.actionSigninFragmentToSignupFragment());
     }
 
     @Override
     public void showErrorMsg(String errorMessage) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage(errorMessage).setTitle("An Error Occurred");
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        CustomAlertDialog.showSimpleAlert(getContext(), "An error occured", errorMessage);
     }
 
 }

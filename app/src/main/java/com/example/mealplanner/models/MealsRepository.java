@@ -1,5 +1,6 @@
 package com.example.mealplanner.models;
 
+import com.example.mealplanner.database.MealsLocalDataSource;
 import com.example.mealplanner.networkLayer.ApiCallback;
 
 import java.util.List;
@@ -17,10 +18,20 @@ public interface MealsRepository {
     public void getMealById(String mealId, ApiCallback apiCallback);
 
     //Local
+    public void setLocalDataSource(MealsLocalDataSource localDataSource);
+    //Saved
     public void addMealToSaved(Meal meal);
     public Observable<List<Meal>> getSavedMeals();
 
     public void deleteSavedMeal(Meal meal);
     public Observable<Boolean> isSaved(String mealId);
+
+    //Plan
+    public void addMealToPlan(Meal meal);
+    public Observable<List<Meal>> getPlannedMeals();
+    public Observable<List<Meal>> getPlanByDate(String date);
+
+    public void deletePlannedMeal(Meal meal);
+
 
 }

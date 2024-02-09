@@ -28,6 +28,9 @@ public class MealsRepositoryImpl implements MealsRepository{
         }
         return repo;
     }
+    public void setLocalDataSource(MealsLocalDataSource localDataSource){
+        this.localDataSource = localDataSource;
+    }
 
     @Override
     public void getRandomMeal(ApiCallback apiCallback) {
@@ -84,11 +87,32 @@ public class MealsRepositoryImpl implements MealsRepository{
     }
 
     @Override
+    public void addMealToPlan(Meal meal) {
+        localDataSource.insertPlannedMeal(meal);
+    }
+
+    @Override
+    public Observable<List<Meal>> getPlannedMeals() {
+        return localDataSource.getAllPlannedMeals();
+    }
+
+    @Override
+    public Observable<List<Meal>> getPlanByDate(String date) {
+        return localDataSource.getPlanByDate(date);
+    }
+
+    @Override
+    public void deletePlannedMeal(Meal meal) {
+        localDataSource.deletePlannedMeal(meal);
+    }
+
+    @Override
     public void getMealById(String mealId, ApiCallback apiCallback) {
         Map<String, String> qp = new HashMap<>();
         qp.put("i", mealId);
         remoteDataSource.makeGetRequest(Constants.APIEndpoints.LOOKUP_MEAL, qp, apiCallback, MealsResponse.class);
     }
+
 
 
 
