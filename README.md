@@ -6,7 +6,6 @@ PlatePal is an Android app developed for meal planning and recipe management. It
 
 - Meal planning
 - Recipe management
-- Shopping list creation
 - User authentication with Firebase
 - Real-time database integration with Firebase
 - Network requests handled with Retrofit
