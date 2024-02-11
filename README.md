@@ -50,10 +50,7 @@ The following libraries and frameworks were used in the development of PlatePal:
 </video><br>  
 
 ### **7. Guest Mode**   
-<video width="200" controls>
-  <source src="https://github.com/HadirElnagdy/Android_Java_MealPlanner/PlatePalScreens/GuestMode.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+![Guest Mode](https://github.com/HadirElnagdy/Android_Java_MealPlanner/raw/main/PlatePalScreens/GuestMode.mp4)
 
 ## Contributing
 
