@@ -1,6 +1,6 @@
 # PlatePal - Meal Planner App
 
-PlatePal is an Android app developed for meal planning and recipe management. It allows users to organize their meals, create shopping lists, and discover new recipes.
+PlatePal is an Android app developed for meal planning and recipe management. It allows users to organize their meals, and discover new recipes.
 
 ## Features
 
