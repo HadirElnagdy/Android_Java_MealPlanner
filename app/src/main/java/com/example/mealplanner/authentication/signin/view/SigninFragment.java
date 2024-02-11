@@ -20,6 +20,7 @@ import com.example.mealplanner.R;
 import com.example.mealplanner.authentication.signin.presenter.SigninPresenter;
 import com.example.mealplanner.authentication.signin.presenter.SigninPresenterImpl;
 import com.example.mealplanner.main.view.MainActivity;
+import com.example.mealplanner.models.UserManager;
 import com.example.mealplanner.util.CustomAlertDialog;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -32,6 +33,7 @@ public class SigninFragment extends Fragment implements SigninView {
     SigninPresenter presenter;
     TextView txtCreateAccount;
     View view;
+    UserManager manager = new UserManager();
 
     public SigninFragment() {
         // Required empty public constructor

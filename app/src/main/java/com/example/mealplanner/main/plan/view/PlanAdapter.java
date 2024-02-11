@@ -17,6 +17,7 @@ import com.example.mealplanner.R;
 import com.example.mealplanner.models.Meal;
 import com.example.mealplanner.networkLayer.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
@@ -68,6 +69,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
 
     public void setList(List<Meal> meals){
         this.meals = meals;
+        this.meals = meals != null ? meals : new ArrayList<>();
         // if (meals == null) Log.e("SearchAdapter", "setList: meals is nullllll");
     }
     public void resetList() {
@@ -75,7 +77,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder>{
     }
     @Override
     public int getItemCount() {
-        return meals.size();
+        return meals != null ? meals.size() : 0;
     }
 
     public void addToList(Meal meal) {

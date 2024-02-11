@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -45,7 +44,6 @@ public class OnboardingFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Configure Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -85,11 +83,9 @@ public class OnboardingFragment extends Fragment {
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                // Google Sign-In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
-                // Google Sign-In failed, update UI accordingly
                 Log.w(TAG, "Google sign in failed", e);
                 Toast.makeText(requireContext(), "Google sign in failed", Toast.LENGTH_SHORT).show();
             }
@@ -101,11 +97,9 @@ public class OnboardingFragment extends Fragment {
         FirebaseAuth.getInstance().signInWithCredential(credential)
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         goToMainActivity();
                     } else {
-                        // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
                         Toast.makeText(requireContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
                     }
@@ -115,6 +109,6 @@ public class OnboardingFragment extends Fragment {
     private void goToMainActivity() {
         Intent intent = new Intent(requireActivity(), MainActivity.class);
         startActivity(intent);
-        requireActivity().finish(); // Finish current activity to prevent going back to OnboardingFragment
+        requireActivity().finish();
     }
 }

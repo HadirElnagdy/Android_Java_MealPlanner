@@ -64,6 +64,7 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
     HomeFragmentDirections.ActionHomeFragmentToMealFragment action;
     Calendar calendar = Calendar.getInstance();
     View view;
+    View loadingIndicator;
 
 
     @Override
@@ -76,7 +77,9 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
+        loadingIndicator = view.findViewById(R.id.loadingIndicator);
+        loadingIndicator.setVisibility(View.VISIBLE);
         intializeViews(view);
         intializeRecyclerView();
         intializePresenter();
@@ -205,6 +208,7 @@ public class HomeFragment extends Fragment implements HomeView, MealInteractionL
             presenter.getRandomMeal();
             presenter.getCategoryList();
         }
+        loadingIndicator.setVisibility(View.GONE);
     }
 
 
