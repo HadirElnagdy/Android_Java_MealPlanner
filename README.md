@@ -45,12 +45,13 @@ The following libraries and frameworks were used in the development of PlatePal:
 <img src="PlatePalScreens/Searching & Filtering.png" width="200"><img src="PlatePalScreens/FilterByArea.png" width="200"><img src="PlatePalScreens/FilterByCategory.png" width="200"><img src="PlatePalScreens/FilterByCategory2.png" width="200"><img src="PlatePalScreens/FilterByIngredient.png" width="200"><br>
 ### **6. Search & Save & Plan**   
 <video width="200" controls>
-  <source src="https://github.com/HadirElnagdy/Android_Java_MealPlanner/PlatePalScreens/raw/main/Search&Saved&Plan.mp4" type="video/mp4">
+  <source src="https://github.com/HadirElnagdy/Android_Java_MealPlanner/PlatePalScreens/Search&Saved&Plan.mp4" type="video/mp4">
   Your browser does not support the video tag.
-</video>
+</video><br>  
+
 ### **7. Guest Mode**   
 <video width="200" controls>
-  <source src="https://github.com/HadirElnagdy/Android_Java_MealPlanner/PlatePalScreens/raw/main/GuestMode.mp4" type="video/mp4">
+  <source src="https://github.com/HadirElnagdy/Android_Java_MealPlanner/PlatePalScreens/GuestMode.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
