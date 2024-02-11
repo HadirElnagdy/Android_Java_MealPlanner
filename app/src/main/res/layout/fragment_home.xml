@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".main.home.view.HomeFragment" >
 
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,6 +32,10 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
+                    <include layout="@layout/loading_indicator"
+                        android:id="@+id/loadingIndicator"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/img_random_meal"
@@ -74,8 +79,10 @@
                         android:id="@+id/btn_save_random"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="8dp"
                         android:text="@string/save"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/btn_add_plan_random"
                         app:layout_constraintTop_toTopOf="@+id/btn_add_plan_random" /> />
 
