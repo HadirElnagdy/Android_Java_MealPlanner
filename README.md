@@ -32,10 +32,11 @@ The following libraries and frameworks were used in the development of PlatePal:
 - RxJava
 
 ## Screenshots
-###1. Onboarding screen
-<img src = "Onboarding.png" width = "200">
-###2. Sign up 
-<img src = "Signup.png" width = "200"> <img src = "SignUpError.png" width = "200"> 
+### **1. Onboarding Screen**   
+<img src="PlatePalScreens/Onboarding.png" width="200"><br>   
+### **2. Sign up Screen**   
+<img src="PlatePalScreens/SignUp.png" width="200"> <img src="PlatePalScreens/SignUpError.png" width="200"><br>
+
 
 
 ## Contributing
