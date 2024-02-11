@@ -27,6 +27,7 @@ The following libraries and frameworks were used in the development of PlatePal:
 
 - AndroidX Libraries
 - Firebase
+- Realtime Database
 - Retrofit
 - Glide
 - RxJava
@@ -36,8 +37,22 @@ The following libraries and frameworks were used in the development of PlatePal:
 <img src="PlatePalScreens/Onboarding.png" width="200"><br>   
 ### **2. Sign up Screen**   
 <img src="PlatePalScreens/SignUp.png" width="200"> <img src="PlatePalScreens/SignUpError.png" width="200"><br>
-
-
+### **3. Login Screen**   
+<img src="PlatePalScreens/Login.png" width="200"> <img src="PlatePalScreens/LoginError.png" width="200"><br>
+### **4. Home Screen**   
+<img src="PlatePalScreens/Home.png" width="200"><br>
+### **5. Searching & Filtering**   
+<img src="PlatePalScreens/Searching & Filtering.png" width="200"><img src="PlatePalScreens/FilterByArea.png" width="200"><img src="PlatePalScreens/FilterByCategory.png" width="200"><img src="PlatePalScreens/FilterByCategory2.png" width="200"><img src="PlatePalScreens/FilterByIngredient.png" width="200"><br>
+### **6. Search & Save & Plan**   
+<video width="200" controls>
+  <source src="https://github.com/HadirElnagdy/Android_Java_MealPlanner/PlatePalScreens/raw/main/Search&Saved&Plan.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+### **7. Guest Mode**   
+<video width="200" controls>
+  <source src="https://github.com/HadirElnagdy/Android_Java_MealPlanner/PlatePalScreens/raw/main/GuestMode.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ## Contributing
 
